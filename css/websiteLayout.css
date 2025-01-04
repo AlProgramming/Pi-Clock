@@ -1,1 +1,129 @@
+body{
+	font-family: "Times New Roman", Times, serif;
+}
 
+.topHeader{
+	background-color: #6495ED; /*Cornflower Blue*/
+	padding: 10px;
+	text-align: center;
+	color: black;
+	font-family: Arial, sans-serif;
+	margin: 0;
+}
+
+h1, h2, h3, h4{
+	font-family: Arial, sans-serif;
+}
+
+.navigation{
+	background-color: #00008B; /*Dark Blue*/
+	margin: 0px;
+	padding: 0px 0px 0px 0px;
+	overflow: hidden;
+	width: 100%
+}
+
+.navigation a{
+	float: left;
+	color: white;
+	padding: 12px;
+	text-decoration: none;
+	display: inline;
+}
+
+.navigation a:hover{
+	background-color: #008B8B /*Dark Cyan*/
+}
+table, th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
+	padding: 10px;
+}
+
+tr:nth-child(even) {
+	background-color: #D3D3D3; /*Light Gray*/
+}
+
+.language{
+	max-width: 200px;
+	float: right !important;	
+}
+@media screen and (max-width: 600px){
+	.layout1 a{display: block;}
+	.layout1 a{float: none;}
+	.layout1 a{text-align: center;}
+	.language{float: none !important}
+	.language{max-width: none !important}
+}
+@media screen and (max-width: 700px){
+	.layout2 a{display: block;}
+	.layout2 a{float: none;}
+	.layout2 a{text-align: center;}
+	.language.languageLayout2{float: none !important}
+	.language.languageLayout2{max-width: none !important}
+}
+.calculator{
+	border: 5px solid black;
+	overflow: hidden;
+}
+.calculator input[type=text]{
+	font-family: Arial, sans-serif;
+}
+.calculator input[type=button]{
+	font-family: Georgia, serif;
+}
+
+.calculator select{
+	font-family: Tahoma, sans-serif;
+}
+.from{
+	padding: 10px;
+	float: left;
+}
+
+.to{
+	padding: 10px;
+	float: right;
+}
+
+.clock{
+	padding: 10px;
+}
+
+.convert{
+	width: 100%;
+	border-radius: 0px;
+	min-height: 40px;
+	margin: 0px;
+	border: 0px;
+}
+
+.convertButton{
+	background-color: #00CC00; /*Around Lime Green, but Darker*/
+}
+
+.convertButton:hover{
+	background-color: #00DD00; /*Also Around Lime Green*/
+}
+
+.clearButton{
+	background-color: #EE0000; /*Close to Red*/
+}
+
+.clearButton:hover{
+	background-color: #FF0000; /*Red*/
+}
+
+.bottomFooter{
+	text-align: center;
+	background-color: #6495ED; /*Cornflower Blue*/
+	margin-top: 25px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	min-height: 50px;
+	width: 100%;
+}
+
+.bottomFooter a{
+	color: black;
+}
