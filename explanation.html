@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang = "en-US">
+<head>
+<meta charset = "UTF-8"/>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+<link rel = "stylesheet" type = "text/css" href = "../css/websiteLayout.css"/>
+<title>Pi Radian Clock Explanation</title>
+<link rel = "icon" type = "image/x-icon" href = "../images/PiClockLogo.png"/>
+</head>
+<body>
+<div class = "topHeader">
+	<h1>Pi Clock</h1>
+	<img src = "../images/PiClockLogo.png" alt = "Pi Clock Logo" style = "max-width: 100%; height: auto;"/>
+</div>
+<div class = "navigation layout1">
+	<a href = "index.html">Home</a>
+	<a href = "explanation.html">Explanation</a>
+	<a href = "calculator.html">Conversion Calculator</a>
+	<a href = "timezone.html">Time Zone Calculator</a>
+	<a href = "explicacion.html" class = "language languageLayout1">Español</a>
+</div>
+<h1>Pi Clock Explanation</h1>
+<p>
+Welcome to our website! You may be wondering how the Pi Clock works, or what terminology such as second-radian or hour-division mean. This page will explain the meaning of these terms. You may already have some knowledge about how this Pi Clock works; for example, you might already know what radians are. Feel free to go directly to new knowledge you might be unfamiliar with.
+</p>
+<h2>Radians</h2>
+<p>The Pi Clock is based on an analog clock, in which the hour hand revolves around the clock every 12 hours (12 hour clock) or 24 hours (24 hour clock). The hour hand's revolution is an angle, measured from the 12 hour mark (12 hour clock) or the 0 hour mark (24 hour clock), at the top of the clock. In everyday life, angles are measured in degrees; however, there is a different way to measure angles - radians.
+</p>
+<p>
+Radians measure angles, but are based on the diameter of the circle. One radian equals the angle that is created by the arc of the circle with the same length as the circle's radius.
+</p>
+<p>Demonstration of the radian's defenition:</p>
+<img src = "../images/Circle_radians.gif" alt = "Demonstration of the definition of radians" style = "max-width: 100%; height: auto;"/>
+<p>By Lucas Vieira - Own work, Public Domain, <a href = "https://commons.wikimedia.org/w/index.php?curid=25112326">https://commons.wikimedia.org/w/index.php?curid=25112326</a></p>
+<p>The Pi Clock measures time by taking the angle of the hour hand (in radians), and then using that as the time.</p>
+<h2>Precision</h2>
+<p>
+The Pi Clock measures the angle of the hour hand, but it cannot have infinite precision. It would be impossible to keep track of, and would be useless, as one would not be able to keep track of the time. Therefore, it is required to have certain precision. There are two types of precision: unit-division and radian-unit. These two types of precision are based on a unit (for this website, either hours, minutes, or seconds). These types of precision are also unique in 24 hour time and 12 hour time.
+</p>
+<h3>Unit-Division</h3>
+<p>
+The unit-division is one type of precision. The unit-division is based on taking how many units are there in a day, and then taking that as the unsimplified denominator (for example, there are 24 hours in a day, so time in hour-division precision changes in increments of π/24). In unit-division precision, the time changes every time the angle reaches an angle in these increments; in 24 hour hour-division, the time changes every half-hour (30 minutes). This can also apply in 12 hour time; the time still changes in these increments regardless of whether it is 24 hour time or 12 hour time, but since the hour hand makes a full revolution (2π radians) every 12 hours, rather than every 24 hours, the frequency that the time changes is double than in 24 hour time (in 12 hour time hour-division, the time changes every quarter-hour, 15 minutes, rather than every half-hour, 30 minutes).
+</p>
+<p>Demonstration of how the hour-division is constructed (each unit represents π/12 radians, each an increment in hour-division precision):</p>
+<img src = "../images/Unit-Divisions_Demonstration.jpg" alt = "Demonstration of unit-division construction" style = "max-width: 100%; height: auto;"/>
+<p>Image is original of the page's author</p>
+<h3>Radian-Unit</h3>
+<p>
+The radian-unit is another type of precision. The radian-unit is based on how long a unit of time passes, rather than how many units there are in a day. For example, the time in radian-hour precision will only change whenever an hour passes, rather than every half-hour or quarter-hour. However, a increment in time with radian-unit precision will be less than in an unit-division. The frequency that the time changes stays constant from 24 hour time to 12 hour time, but not the increments (for example, in 24 hour time, the increment in time using radian-hours will be π/12 radians, while in 12 hour time, that increment will be π/6 radians).
+</p>
+<h3>Rounding</h3>
+<p>
+There is one thing about measuring time in radians that has not been mentioned yet - rounding. Since this time measurement changes in increments, what about the time that is between these increments (almost all the time)? When measuring, time is always rounded down (counterclockwise on a clock). For example, say the time is exactly π/12 (when time is exact, any type of precision will give the same result, but the precision affects the time measurement when the time is not exact; exact time is hypothetically possible, but unfeasable to measure in real life). If using 24 hour time radian-hours, π/24 radians later, the time will still be π/12 using the radian-hour precision (but not when using for example, radian-minute precision). This is because the time is always rounded down / counterclockwise (0 radians can be considered higher, if for example it is 23π/12 exactly, when using radian-hour precision, if π/24 radians pass, it rounds down to 23π/12 radians, not 0 radians, as 0 radians can also be considered 2π radians).
+</p>
+<p>Demonstration of how time is rounded:</p>
+<img src = "../images/PiClockRounding.png" alt = "Demonstration of rounding time" style = "max-width: 100%; height: auto;"/>
+<p>Image is original work of the page's author</p>
+<h3>Table of Precision Types</h3>
+<h4>24 Hour Time</h4>
+<table>
+	<tr>
+		<th>Precision Type</th>
+		<th>Frequency</th>
+		<th>Increments</th>
+	</tr>
+	<tr>
+		<td>24 hour time second-division</td>
+		<td>Every half-second (500 milliseconds)</td>
+		<td>π/86400 radians</td>
+	</tr>
+		<tr>
+		<td>24 hour time radian-second</td>
+		<td>Every second</td>
+		<td>π/43200 radians</td>
+	</tr>
+	<tr>
+		<td>24 hour time minute-division</td>
+		<td>Every half-minute (30 seconds)</td>
+		<td>π/1440 radians</td>
+	</tr>
+	<tr>
+		<td>24 hour time radian-minute</td>
+		<td>Every minute</td>
+		<td>π/720 radians</td>
+	</tr>
+	<tr>
+		<td>24 hour time hour-division</td>
+		<td>Every half-hour (30 minutes)</td>
+		<td>π/24 radians</td>
+	</tr>
+	<tr>
+		<td>24 hour time radian-hour</td>
+		<td>Every hour</td>
+		<td>π/12 radians</td>
+	</tr>
+</table>
+<h4>12 Hour Time</h4>
+<table>
+	<tr>
+		<th>Precision Type</th>
+		<th>Frequency</th>
+		<th>Increments</th>
+	</tr>
+	<tr>
+		<td>12 hour time second-division</td>
+		<td>Every quarter-second (250 milliseconds)</td>
+		<td>π/86400 radians</td>
+	</tr>
+	<tr>
+		<td>12 hour time radian-second</td>
+		<td>Every second</td>
+		<td>π/21600 radians</td>
+	</tr>
+	<tr>
+		<td>12 hour time minute-division</td>
+		<td>Every quarter-minute (15 seconds)</td>
+		<td>π/1440 radians</td>
+	</tr>
+	<tr>
+		<td>12 hour time radian-minute</td>
+		<td>Every minute</td>
+		<td>π/360 radians</td>
+	</tr>
+	<tr>
+		<td>12 hour time hour-division</td>
+		<td>Every quarter-hour (15 minutes)</td>
+		<td>π/24 radians</td>
+	</tr>
+	<tr>
+		<td>12 hour time radian-hour</td>
+		<td>Every hour</td>
+		<td>π/6 radians</td>
+	</tr>
+</table>
+<h2>Sources</h2>
+<p>Sources for the information are below, as the image sources are already acknowledged: </p>
+<p>Radians Explanation: Math Is Fun - Radians. Link: <a href = "https://www.mathsisfun.com/geometry/radians.html">https://www.mathsisfun.com/geometry/radians.html</a> </p>
+<p>Pi Clock & Precision Explanation: Own Explanation</p>
+<div class = "bottomFooter">
+	<a href = "https://docs.google.com/forms/d/e/1FAIpQLSdh2g9OQ0HjN4Oga8JUab-PowJDo5zFEyftpgxzSypxl8VddQ/viewform?usp=sharing">Report Bug/Feedback Form</a>
+	<p>Pi Clock 2023 - 2024</p>
+</div>
+</body>
+</html>

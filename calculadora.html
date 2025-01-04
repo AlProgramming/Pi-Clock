@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang = "es-MX">
+<head>
+<meta charset = "UTF-8"/>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+<link rel = "stylesheet" type = "text/css" href = "../css/websiteLayout.css"/>
+<title>Calculadora de Conversión de la Hora</title>
+<link rel = "icon" type = "image/x-icon" href = "../images/PiClockLogo.png"/>
+</head>
+<body>
+<div class = "topHeader">
+	<h1>Reloj de Pi</h1>
+	<img src = "../images/PiClockLogo.png" alt = "Logo del Reloj de Pi" style = "max-width: 100%; height: auto;"/>
+</div>
+<div class = "navigation layout2">
+	<a href = "inicio.html">Inicio</a>
+	<a href = "explicacion.html">Explicación</a>
+	<a href = "calculadora.html">Calculadora de Conversiones</a>
+	<a href = "zonahoraria.html">Calculadora de Zonas Horarias</a>
+	<a href = "calculator.html" class = "language languageLayout2">English</a>
+</div>
+<h1>Calculadora de Conversiones de la Hora</h1>
+<p>¡Les damos la bienvenida a la Calculadora de Conversiones de la Hora! Está calculadora convierte radianes a la medida del tiempo estandar (horas, minutos, y segundos; o en el horario de 24 horas o el horario de 12 horas) o sus unidades y vice versa. Está calculadora, sin embargo, no convierta entre unidades en la medida del tiempo estandar o sus unidades (no se puede convertir entre horas a minutos o horas al horario de 12 horas, por ejemplo) o entre radianes de 24 horas a radianes de 12 horas o vice versa. Sin embargo, una método fácil para convertir de radianes de 12 horas a radianes de 24 horas es dividir la hora entre 2, y sumar π si es PM. Al final, se quita el AM o PM. Es recomendado a convertir π a una fracción con el mismo denominador que la fracción nueva. Ejemplo: π/2 radianes PM = (π/2)/2 + π = π/4 + 4π/4 = 5π/4 radianes. Para convertir de radianes de 24 horas a radianes de 12 horas, se puede restar π si la hora original es después de π radianes, y multiplicar la hora por 2. Si la hora original es π radianes o después, añade PM, si la hora original es antes de π radians, añade AM. Esta recomendado a convertir π en una fracción con el denominador de la fracción original. Ejemplo: 7π/4 radianes = (7π/4 - π)*2 = (7π/4 - 4π/4)*2 = (3π/4)*2 = 3π/2 radianes PM.</p>
+<div class = "calculator">
+	<div class = "from" id = "fromElement">
+		<p>De:</p>
+		<select id = "fromSelection" oninput = "checkInput('from');">
+			<optgroup label = "Radianes" id = "fromRadians">
+				<option selected>Radianes (de 24 Horas)</option>
+				<option>Radianes (de 12 Horas)</option>
+			</optgroup>
+			<optgroup label = "Unidades Estandares" id = "fromStandardUnits">
+				<option>Horas, Minutos, y Segundos</option>
+				<option>Horas</option>
+				<option>Horas y Minutos</option>
+				<option>Horas y Segundos</option>
+				<option>Minutos</option>
+				<option>Minutos y Segundos</option>
+				<option>Segundos</option>
+			</optgroup>
+			<optgroup label = "Sistema de Medidads del Tiempo Estandares" id = "fromStandardSystem">
+				<option>Horario de 24 Horas (Sin Segundos)</option>
+				<option>Horario de 24 Horas (Con Segundos Enteros)</option>
+				<option>Horario de 24 Horas (Con Segundos Enteros y Decimales)</option>
+				<option>Horario de 12 Horas (Sin Segundos)</option>
+				<option>Horario de 12 Horas (Con Segundos Enteros)</option>
+				<option>Horario de 12 Horas (Con Segundos Enteros y Decimales)</option>
+			</optgroup>
+		</select>
+		<br/>
+		<br/>
+		<input type = "text" id = "fromInput"/>
+		<br/>
+		<br/>
+		<div id = "fromPiContainer">
+		</div>
+		<br/>
+	</div>
+	<div class = "to" id = "toElement">
+		<p>A:</p>
+		
+		<select id = "toSelection" oninput = "checkInput('to');">
+			<optgroup label = "Radianes" id = "toRadians">
+				<option >Radianes (de 24 Horas)</option>
+				<option>Radianes (de 12 Horas)</option>
+			</optgroup>
+			<optgroup label = "Unidades Estandares" id = "toStandardUnits">
+				<option selected>Horas, Minutos, y Segundos</option>
+				<option>Horas</option>
+				<option>Horas y Minutos</option>
+				<option>Horas y Segundos</option>
+				<option>Minutos</option>
+				<option>Minutos y Segundos</option>
+				<option>Segundos</option>
+			</optgroup>
+			<optgroup label = "Sistema de Medidads del Tiempo Estandares" id = "toStandardSystem">
+				<option>Horario de 24 Horas (Sin Segundos)</option>
+				<option>Horario de 24 Horas (Con Segundos Enteros)</option>
+				<option>Horario de 24 Horas (Con Segundos Enteros y Decimales)</option>
+				<option>Horario de 12 Horas (Sin Segundos)</option>
+				<option>Horario de 12 Horas (Con Segundos Enteros)</option>
+				<option>Horario de 12 Horas (Con Segundos Enteros y Decimales)</option>
+			</optgroup>
+		</select>
+		<br/>
+		<br/>
+		<input type = "text" id = "toInput" readonly/>
+		<br/>
+		<br/>
+		<div id = "toPiContainer">
+		</div>
+		<br/>
+	</div>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<input type = "button" class = "convert convertButton" value = "Convierte" onclick = "convertFunction();"/>
+	<input type = "button" class = "convert clearButton" value = "Restablecer" onclick = "clearFunction();"/>
+</div>
+<div class = "bottomFooter">
+	<a href = "https://docs.google.com/forms/d/e/1FAIpQLSdh2g9OQ0HjN4Oga8JUab-PowJDo5zFEyftpgxzSypxl8VddQ/viewform?usp=sharing">Reporta Error de Programación o Manda Sugerencias</a>
+	<p>Reloj de Pi 2023 - 2024</p>
+</div>
+<script>
+function checkInput(selection){
+	//Declaraciones de Variables
+	var fromOption = document.getElementById("fromSelection");
+	var toOption = document.getElementById("toSelection");
+	var fromSelected = fromOption.options.selectedIndex;
+	var toSelected = toOption.options.selectedIndex;
+	var fromText = document.getElementById("fromInput");
+	var toText = document.getElementById("toInput");
+	var addPi;
+	var removePi;
+	var inputPi;
+	var i;
+	var j;
+	
+	if(selection == "from"){ //Si la selección \"de\" está cambiado, cambia la selección "a" .
+		if(fromSelected <= 1 && toSelected <= 1){
+			toOption.options.selectedIndex = "2";
+			toSelected = "2";
+		}else if(fromSelected >= 2 && toSelected >= 2){
+			toOption.options.selectedIndex = "0";
+			toSelected = "0";
+		}
+	}else if(selection == "to"){ //Si la selección "a" está cambiado, cambia la selección \"de\".
+		if(fromSelected <= 1 && toSelected <= 1){
+			fromOption.options.selectedIndex = "2";
+			fromSelected = "2";
+		}else if (fromSelected >= 2 && toSelected >= 2){
+			fromOption.options.selectedIndex = "0";
+			fromSelected = "0";
+		}
+	}
+
+	if(fromSelected <= 1){ //Incluye un botón para añadir pi si en la selección \"de\" una opción de radianes está seleccionada.
+		inputPi = document.getElementById("fromInputPi");
+		if(inputPi == null){
+			addPi = document.createElement("INPUT");
+			addPi.setAttribute("type", "button");
+			addPi.setAttribute("value", "Añade π");
+			addPi.setAttribute("id", "fromInputPi");
+			addPi.setAttribute("onclick", "insertPi('from');");
+			addPi.style.width = "100px";
+			addPi.style.height = "20px";
+			document.getElementById("fromPiContainer").appendChild(addPi);
+		}
+	}
+
+	if(fromSelected != 0 && fromSelected != 1) { //Quita el botón para añadir pi si en la selección \"de\" no está seleccionada una opción de radianes.
+		removePi = document.getElementById("fromInputPi");
+		if(removePi != null){
+			removePi.remove();
+		}
+	}
+
+}
+
+checkInput(''); //Ejecuta la función checkInput en el principio del programa.
+
+//Función para añadir pi cuando el botón está presionada;
+function insertPi(selection1){
+	var fromText1 = document.getElementById("fromInput");
+	var toText1 = document.getElementById("toInput");
+	
+	if(selection1 == "from"){
+		fromText1.value = fromText1.value + "π";
+	}else if(selection1 == "to"){
+		toText1.value = toText1.value + "π";
+	}
+}
+
+//Haz las conversiones cuando el botón para convertir está presionada.
+function convertFunction(){
+	//Declaraciones de Variables
+	var fromOption1 = document.getElementById("fromSelection");
+	var toOption1 = document.getElementById("toSelection");
+	var fromSelected1 = fromOption1.options.selectedIndex;
+	var toSelected1 = toOption1.options.selectedIndex;
+	var fromInputTextbox = document.getElementById("fromInput");
+	var toInputTextbox = document.getElementById("toInput");
+	var fromTextValue = fromInputTextbox.value;
+	var toTextValue = toInputTextbox.value;
+	var numberValue1;
+	var pattern1 = /[^0-9π\/]/;
+	var pattern2 = /\//g;
+	var pattern3 = /\/(?=[0-9π])/;
+	var pattern4 = /^\//;
+	var pattern5 = /[^0-9π\/apmAPM\s]/;
+	var pattern6 = /\s/g;
+	var pattern7 = /\s(?=[apmAPM])/;
+	var pattern8 = /[0-9π](?=\s)/;
+	var pattern9 = /[apmAPM]/g;
+	var pattern10 = /[apAP](?=[mM])/;
+	var pattern11 = /[mM]$/;
+	var pattern12 = /[^0-9,\.]/;
+	var pattern13 = /,/g;
+	var pattern14 = /,(?![0-9])/;
+	var pattern15 = /^,/;
+	var pattern16 = /\./g;
+	var pattern17 = /(,|\.)(?![0-9])/;
+	var pattern18 = /^(,|\.)/;
+	var pattern19 = /[^0-9\.]/;
+	var pattern20 = /\.(?![0-9])/;
+	var pattern21 = /^\./;
+	var pattern22 = /[^0-9:]/;
+	var pattern23 = /^:/;
+	var pattern24 = /:/g;
+	var pattern25 = /:(?![0-9])/;
+	var pattern26 = /[^0-9:\.]/;
+	var pattern27 = /[^0-9:apmAPM\s]/;
+	var pattern28 = /[^0-9:apmAPM\s\.]/;
+	var checkTextArray = [];
+	var checkTextArray1 = [];
+	var checkTextArray2 = [];
+	var checkTextArray3 = [];
+	var checkTextArray4 = [];
+	var checkDecimalArray = [];
+	var fraction_AMPM;
+	var fraction_noAMPM;
+	var nonFraction_AMPM;
+	var nonFraction_noAMPM;
+	var pattern6Boolean;
+	var potentiallyValid12hInteger;
+	var pattern6BooleanInteger;
+	var potentiallyValid12hDecimal;
+	var pattern6BooleanDecimal;
+	var isValid;
+	var includesFraction;
+	var includesAMPM;
+	var fromTextValueArray;
+	var numerator;
+	var denominator;
+	var AMorPM
+	var denominatorAMorPMarray;
+	var result;
+	var hoursResult;
+	var minutesResult;
+	var secondsResult;
+	var i;
+
+	if(fromSelected1 == 0){ //Radianes de 24 Horas
+		checkTextArray = fromTextValue.match(pattern2);
+		if(pattern1.test(fromTextValue) == false){
+			if(pattern2.test(fromTextValue) == false){
+				isValid = true;
+				includesFraction = false;
+			}else if(pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && checkTextArray.length < 2){
+				isValid = true;
+				includesFraction = true;
+			}else{
+				isValid = false;
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			if(includesFraction == true){
+				fromTextValueArray = fromTextValue.split("/");
+				numerator = fromTextValueArray[0];
+				denominator = fromTextValueArray[1];
+				numerator = convertPi(numerator);
+				denominator = convertPi(denominator);
+				numberValue1 = numerator / denominator;
+			}else{
+				numberValue1 = convertPi(fromTextValue);
+			}
+			result = Math.round(100 * numberValue1 * (43200/Math.PI))/100;
+			hoursResult = convertToStandard(result, toSelected1, "h");
+			minutesResult = convertToStandard(result, toSelected1, "m");
+			secondsResult = convertToStandard(result, toSelected1, "s");
+			amPM_result = convertToStandard(result, toSelected1, "amPM");
+			hoursResult = Math.round(100 * hoursResult)/100;
+			minutesResult = Math.round(100 * minutesResult)/100;
+			secondsResult = Math.round(100 * secondsResult)/100;
+			if(toSelected1 == 2){
+				toInputTextbox.value = hoursResult + "," + minutesResult + "," + secondsResult;
+			}else if(toSelected1 == 3){
+				toInputTextbox.value = hoursResult;
+			}else if(toSelected1 == 4){
+				toInputTextbox.value = hoursResult + "," + minutesResult;
+			}else if(toSelected1 == 5){
+				toInputTextbox.value = hoursResult + "," + secondsResult;
+			}else if(toSelected1 == 6){
+				toInputTextbox.value = minutesResult;
+			}else if(toSelected1 == 7){
+				toInputTextbox.value = minutesResult + "," + secondsResult;
+			}else if(toSelected1 == 8){
+				toInputTextbox.value = secondsResult;
+			}else if(toSelected1 <= 11){
+				if(hoursResult < 10){
+					hoursResult = "0" + hoursResult;
+				}
+				if(minutesResult < 10){
+					minutesResult = "0" + minutesResult;
+				}
+				if(secondsResult < 10){
+					secondsResult = "0" + secondsResult;
+				}
+				if(toSelected1 == 9){
+					toInputTextbox.value = hoursResult + ":" + minutesResult;
+				}else if(toSelected1 == 10){
+					secondsResult = Math.floor(secondsResult);
+					if(secondsResult < 10){	
+					secondsResult = "0" + secondsResult;
+					}
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult;
+				}else if(toSelected1 == 11){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult;
+				}
+			}else{
+				if(minutesResult < 10){
+					minutesResult = "0" + minutesResult;
+				}
+				if(secondsResult < 10){
+					secondsResult = "0" + secondsResult;
+				}
+				if(hoursResult == 0){
+					hoursResult = 12;
+				}
+				if(toSelected1 == 12){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + " " + amPM_result;
+				}else if(toSelected1 == 13){
+					secondsResult = Math.floor(secondsResult);
+					if(secondsResult < 10){	
+					secondsResult = "0" + secondsResult;
+					}
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult + " " + amPM_result;
+				}else if(toSelected1 == 14){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult + " " + amPM_result;
+
+				}
+			}
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters numéricos, el carácter de pi, o la barra [/], sin espacios. Asegurase que cualquier uso de la barra incluye un número antes y despues de la barra, y ese número puede incluir el carácter de pi. La barra solo se puede usar una vez. No se permiten los números decimales, por favor solo usa fracciones. Gracias.");
+		}
+	}else if(fromSelected1 == 1){ //Radianes de 12 Horas
+		checkTextArray = fromTextValue.match(pattern2);
+		checkTextArray1 = fromTextValue.match(pattern6);
+		checkTextArray2 = fromTextValue.match(pattern9);
+		fraction_AMPM = pattern9.test(fromTextValue) == true && pattern7.test(fromTextValue) == true && pattern8.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true && pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && checkTextArray.length < 2 && checkTextArray1.length < 2 && checkTextArray2.length == 2;
+		fraction_noAMPM = pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && pattern9.test(fromTextValue) == false;
+		nonFraction_AMPM = pattern9.test(fromTextValue) == true && pattern7.test(fromTextValue) == true && pattern8.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true && checkTextArray1.length < 2 && checkTextArray2.length == 2;
+		nonFraction_noAMPM = pattern2.test(fromTextValue) == false && pattern6.test(fromTextValue) == false && pattern9.test(fromTextValue) == false;
+		pattern6Boolean = pattern6.test(fromTextValue) == true;
+		if(pattern5.test(fromTextValue) == false){
+			if(nonFraction_noAMPM == true){
+				isValid = true;
+				includesFraction = false;
+				includesAMPM = false;
+			}else{
+				console.log(pattern2.test(fromTextValue)); //No se debe quitar; la calculadora no trabajará sin este código.
+				if(pattern2.test(fromTextValue) == true){
+					if(pattern6Boolean == true){
+						if(fraction_AMPM == true){
+							isValid = true;
+							includesFraction = true;
+							includesAMPM = true;
+						}else{
+							isValid = false;
+
+						}
+					}else{
+						if(fraction_noAMPM == true){
+							isValid = true;
+							includesFraction = true;
+							includesAMPM = false;
+						}else{
+							isValid = false;
+						}
+					}
+				}else if(nonFraction_AMPM == true){
+					isValid = true;
+					includesFraction = false;
+					includesAMPM = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			if(includesFraction == true){
+				fromTextValueArray = fromTextValue.split("/");
+				numerator = fromTextValueArray[0];
+				denominator = fromTextValueArray[1];
+				denominatorAMorPMarray = denominator.split(" ");
+				denominator = denominatorAMorPMarray[0];
+				AMorPM = denominatorAMorPMarray[1];
+				if(AMorPM == null){
+					AMorPM = "AM";
+				}
+				AMorPM = AMorPM.toUpperCase();
+				numerator = convertPi(numerator);
+				denominator = convertPi(denominator);
+				numberValue1 = numerator / denominator;
+				console.log("Fraction");
+			}else{
+				denominatorAMorPMarray = fromTextValue.split(" ");
+				numberValue1 = denominatorAMorPMarray[0];
+				AMorPM = denominatorAMorPMarray[1];
+				if(AMorPM == null){
+					AMorPM = "AM";
+				}
+				AMorPM = AMorPM.toUpperCase();
+				console.log(numberValue1);
+				numberValue1 = convertPi(numberValue1);
+				console.log("Non-Fraction");
+			}
+			result = Math.round(100 * numberValue1 * (21600/Math.PI))/100;
+			if(AMorPM == "PM"){
+				result += 43200;
+				console.log(result);
+			}
+			hoursResult = convertToStandard(result, toSelected1, "h");
+			minutesResult = convertToStandard(result, toSelected1, "m");
+			secondsResult = convertToStandard(result, toSelected1, "s");
+			amPM_result = convertToStandard(result, toSelected1, "amPM");
+			hoursResult = Math.round(100 * hoursResult)/100;
+			minutesResult = Math.round(100 * minutesResult)/100;
+			secondsResult = Math.round(100 * secondsResult)/100;
+			if(toSelected1 == 2){
+				toInputTextbox.value = hoursResult + "," + minutesResult + "," + secondsResult;
+			}else if(toSelected1 == 3){
+				toInputTextbox.value = hoursResult;
+			}else if(toSelected1 == 4){
+				toInputTextbox.value = hoursResult + "," + minutesResult;
+			}else if(toSelected1 == 5){
+				toInputTextbox.value = hoursResult + "," + secondsResult;
+			}else if(toSelected1 == 6){
+				toInputTextbox.value = minutesResult;
+			}else if(toSelected1 == 7){
+				toInputTextbox.value = minutesResult + "," + secondsResult;
+			}else if(toSelected1 == 8){
+				toInputTextbox.value = secondsResult;
+			}else if(toSelected1 <= 11){
+				console.log("Seconds: " + secondsResult);
+				if(hoursResult < 10){
+					hoursResult = "0" + hoursResult;
+				}
+				if(minutesResult < 10){
+					minutesResult = "0" + minutesResult;
+				}
+				if(secondsResult < 10){	
+					secondsResult = "0" + secondsResult;
+				}
+				if(toSelected1 == 9){
+					toInputTextbox.value = hoursResult + ":" + minutesResult;
+				}else if(toSelected1 == 10){
+					secondsResult = Math.floor(secondsResult);
+					if(secondsResult < 10){	
+					secondsResult = "0" + secondsResult;
+					}
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult;
+					console.log("Output Seconds: " + secondsResult);
+				}else if(toSelected1 == 11){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult;
+				}
+			}else{
+				if(minutesResult < 10){
+					minutesResult = "0" + minutesResult;
+				}
+				if(secondsResult < 10){
+					secondsResult = "0" + secondsResult;
+				}
+				if(hoursResult == 0){
+					hoursResult = 12;
+				}
+				if(toSelected1 == 12){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + " " + amPM_result;
+				}else if(toSelected1 == 13){
+					secondsResult = Math.floor(secondsResult);
+					if(secondsResult < 10){	
+					secondsResult = "0" + secondsResult;
+					}
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult + " " + amPM_result;
+				}else if(toSelected1 == 14){
+					toInputTextbox.value = hoursResult + ":" + minutesResult + ":" + secondsResult + " " + amPM_result;
+
+				}
+			}
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters numéricos, el carácter de pi, AM or PM en minúscula o mayúscula (no se permiten el uso de otros carácters), o la barra [/]. El único espacio que se puede usar es entre el número y el AM o PM. Asegurase que cualquier uso de la barra incluye un número antes y despues de la barra, y ese número puede incluir el carácter de pi. La barra solo se puede usar una vez. No se permiten los números decimales, por favor solo usa fracciones. Gracias.");
+		}
+	}else if(fromSelected1 == 2){ //Horas, Minutos, Segundos
+		checkTextArray3 = fromTextValue.match(pattern13);
+		if(checkTextArray3 == null){
+			checkTextArray3 = ["Invalid", "Input", "Entered"];
+		}
+		if(pattern12.test(fromTextValue) == false && checkTextArray3.length == 2){
+			if(pattern16.test(fromTextValue)){
+				if(pattern17.test(fromTextValue) == false && pattern18.test(fromTextValue) == false){
+					checkDecimalArray = fromTextValue.split(",");
+					isValid = true;
+					for(i = 0; i < 3; i++){
+						checkTextArray4 = checkDecimalArray[i].match(pattern16);
+						if(checkTextArray4 != null){
+							if(checkTextArray4.length >= 2){
+								isValid = false;
+							}
+						}
+					}
+				}else{
+					isValid = false;
+				}
+			}else{
+				if(pattern14.test(fromTextValue) == false && pattern15.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(",");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60) + (fromTextValueArray[2] * 1);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters numéricos, puntos decimales [.] (hasta uno per número), y solo dos comas. Se requiere dos comas, pero no se permiten usarlas mas que dos comas. Gracias.");
+		}
+	}else if(fromSelected1 == 3){ //Horas
+		checkTextArray = fromTextValue.match(pattern16);
+		if(checkTextArray == null){
+			checkTextArray = ["Valid"];
+		}
+		if(pattern19.test(fromTextValue) == false && checkTextArray.length <= 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}else{
+				isValid = true;
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			numberValue1 = fromTextValue * 3600;
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa un número. Los números decimales se pueden usar, pero el punto decimal [.] solo se puede usar una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 4){ //Horas y Minutos
+		checkTextArray = fromTextValue.match(pattern13);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input"];
+		}
+		if(pattern12.test(fromTextValue) == false && checkTextArray.length == 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern17.test(fromTextValue) == false && pattern18.test(fromTextValue) == false){
+					checkDecimalArray = fromTextValue.split(",");
+					isValid = true;
+					for(i = 0; i < 2; i++){
+						checkTextArray4 = checkDecimalArray[i].match(pattern16);
+						if(checkTextArray4 != null){
+							if(checkTextArray4.length >= 2){
+								isValid = false;
+							}
+						}
+					}
+				}else{
+					isValid = false;
+				}
+			}else{
+				if(pattern14.test(fromTextValue) == false && pattern15.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(",");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, puntos decimales [.] (solo uno per número), y una coma. Una coma es requerido, pero no se permite usarla mas que una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 5){ //Horas y Segundos
+		checkTextArray = fromTextValue.match(pattern13);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input"];
+		}
+		if(pattern12.test(fromTextValue) == false && checkTextArray.length == 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern17.test(fromTextValue) == false && pattern18.test(fromTextValue) == false){
+					checkDecimalArray = fromTextValue.split(",");
+					isValid = true;
+					for(i = 0; i < 2; i++){
+						checkTextArray4 = checkDecimalArray[i].match(pattern16);
+						if(checkTextArray4 != null){
+							if(checkTextArray4.length >= 2){
+								isValid = false;
+							}
+						}
+					}
+				}else{
+					isValid = false;
+				}
+			}else{
+				if(pattern14.test(fromTextValue) == false && pattern15.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(",");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 1);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, puntos decimales [.] (solo uno per número), y una coma. Una coma es requerido, pero no se permite usarla mas que una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 6){ //Minutos
+		checkTextArray = fromTextValue.match(pattern16);
+		if(checkTextArray == null){
+			checkTextArray = ["Valid"];
+		}
+		if(pattern19.test(fromTextValue) == false && checkTextArray.length <= 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}else{
+				isValid = true;
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			numberValue1 = fromTextValue * 60;
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa un número. Los números decimales se pueden usar, pero el punto decimal [.] solo se puede usar una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 7){ //Minutos y Segundos
+		checkTextArray = fromTextValue.match(pattern13);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input"];
+		}
+		if(pattern12.test(fromTextValue) == false && checkTextArray.length == 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern17.test(fromTextValue) == false && pattern18.test(fromTextValue) == false){
+					checkDecimalArray = fromTextValue.split(",");
+					isValid = true;
+					for(i = 0; i < 2; i++){
+						checkTextArray4 = checkDecimalArray[i].match(pattern16);
+						if(checkTextArray4 != null){
+							if(checkTextArray4.length >= 2){
+								isValid = false;
+							}
+						}
+					}
+				}else{
+					isValid = false;
+				}
+			}else{
+				if(pattern14.test(fromTextValue) == false && pattern15.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(",");
+			numberValue1 = (fromTextValueArray[0] * 60) + (fromTextValueArray[1] * 1);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, puntos decimales [.] (solo uno per número), y una coma. Una coma es requerido, pero no se permite usarla mas que una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 8){ //Segundos
+		checkTextArray = fromTextValue.match(pattern16);
+		if(checkTextArray == null){
+			checkTextArray = ["Valid"];
+		}
+		if(pattern19.test(fromTextValue) == false && checkTextArray.length <= 1){
+			if(pattern16.test(fromTextValue)){
+				if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+			}else{
+				isValid = true;
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			numberValue1 = fromTextValue * 1;
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa un número. Los números decimales se pueden usar, pero el punto decimal [.] solo se puede usar una vez. Gracias.");
+		}
+	}else if(fromSelected1 == 9){ //Horario de 24 Horas No Segundos
+		checkTextArray = fromTextValue.match(pattern24);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input"];
+		}
+		if(pattern22.test(fromTextValue) == false && checkTextArray.length == 1){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, y un carácter de los dos puntos [:]. El carácter de los dos puntos es requerido, pero no se permite usarlo mas que una vez. No se permiten números decimales. Gracias.");
+		}
+	}else if(fromSelected1 == 10){ //Horario de 24 Horas Con Segundos
+		checkTextArray = fromTextValue.match(pattern24);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input", "Entered"];
+		}
+		if(pattern22.test(fromTextValue) == false && checkTextArray.length == 2){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					isValid = true;
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60) + (fromTextValueArray[2] * 1);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, y dos caracteres de los dos puntos [:]. Dos caracteres de los dos puntos son requeridos, pero no se permite usarlos mas que dos vez. No se permiten números decimales. Gracias.");
+		}
+	}else if(fromSelected1 == 11){ //Horario de 24 Horas Con Segundos Decimal
+		checkTextArray = fromTextValue.match(pattern24);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input", "Entered"];
+		}
+		if(pattern26.test(fromTextValue) == false && checkTextArray.length == 2){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					if(pattern16.test(fromTextValue)){
+						if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+							checkDecimalArray = fromTextValue.split(":");
+							isValid = true;
+							for(i = 0; i < 3; i++){
+								checkTextArray4 = checkDecimalArray[i].match(pattern16);
+								if(checkTextArray4 != null){
+									if(checkTextArray4.length >= 2){
+										isValid = false;
+									}
+								}
+							}
+						}
+					}else{
+						isValid = true;
+					}
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60) + (fromTextValueArray[2] * 1);
+			if(toSelected1 == 0){
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(numberValue1 < 43200){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(numberValue1 < 86400){
+					numberValue1 %= 43200;
+					result = convertToRadians(numberValue1, 12, "PM");
+				}else{
+					result = convertToRadians(numberValue1, 12, "");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos (se puede usar un punto decimal [.] para los segundos), y dos caracteres de los dos puntos [:]. Dos caracteres de los dos puntos son requeridos, pero no se permite usarlos mas que dos vez. Gracias.");
+		}
+	}else if(fromSelected1 == 12){ //Horario de 12 Horas Sin Segundos
+		checkTextArray = fromTextValue.match(pattern24);
+		checkTextArray1 = fromTextValue.match(pattern9);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input"];
+		}
+		if(checkTextArray1 == null && pattern6.test(fromTextValue) == true){
+			checkTextArray1 = ["Invalid", "Input", "Entered"];
+		}else if(pattern6.test(fromTextValue) == false){
+			checkTextArray1 = ["Valid", "Input"];
+		}
+		if(pattern27.test(fromTextValue) == false && checkTextArray.length == 1 && checkTextArray1.length <= 2){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					if(pattern6.test(fromTextValue) == true){
+						if(pattern7.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true){
+							isValid = true;
+						}else{
+							isValid = false;
+						}
+					}else{
+						isValid = true;
+					}
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			denominatorAMorPMarray = fromTextValueArray[1].split(" ");
+			if(fromTextValueArray[0] == 12){
+				fromTextValueArray[0] = 0;
+			}
+			numberValue1 = (fromTextValueArray[0] * 3600) + (denominatorAMorPMarray[0] * 60);
+			if(denominatorAMorPMarray[1] == null){
+				AMorPM = "AM";
+			}else{
+				AMorPM = denominatorAMorPMarray[1];
+			}
+			AMorPM = AMorPM.toUpperCase();
+			if(toSelected1 == 0){
+				if(AMorPM == "PM"){
+					numberValue1 += 43200;
+				}
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(AMorPM == "AM"){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(AMorPM == "PM"){
+					result = convertToRadians(numberValue1, 12, "PM");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, un carácter de los dos puntos [:], y 'AM' o 'PM'. El carácter de los dos puntos es requerido, pero no se permite usarlo mas que una vez. Si no hay un 'AM' o 'PM', se asume 'AM'. No se permiten números decimales. Gracias.");
+		}
+	}else if(fromSelected1 == 13){ //Horario de 12 Horas Con Segundos
+		pattern6BooleanInteger = pattern6.test(fromTextValue) == true;
+		checkTextArray = fromTextValue.match(pattern24);
+		checkTextArray1 = fromTextValue.match(pattern9);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input", "Entered"];
+		}
+		if(checkTextArray1 == null && pattern6.test(fromTextValue) == true){
+			checkTextArray1 = ["Invalid", "Input", "Entered"];
+		}else if(pattern6.test(fromTextValue) == false){
+			checkTextArray1 = ["Valid", "Input"];
+		}
+		potentiallyValid12hInteger = pattern27.test(fromTextValue) == false && checkTextArray.length == 2 && checkTextArray1.length <= 2;
+		if(potentiallyValid12hInteger == true){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					if(pattern6BooleanInteger == true){
+						if(pattern7.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true){
+							isValid = true;
+						}else{
+							isValid = false;
+						}
+					}else{
+						if(pattern9.test(fromTextValue) == false){
+							isValid = true;
+						}else{
+							isValid = false;
+						}
+					}
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			denominatorAMorPMarray = fromTextValueArray[2].split(" ");
+			if(fromTextValueArray[0] == 12){
+				fromTextValueArray[0] = 0;
+			}
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60) + (denominatorAMorPMarray[0] * 1);
+			if(denominatorAMorPMarray[1] == null){
+				AMorPM = "AM";
+			}else{
+				AMorPM = denominatorAMorPMarray[1];
+			}
+			AMorPM = AMorPM.toUpperCase();
+			if(toSelected1 == 0){
+				if(AMorPM == "PM"){
+					numberValue1 += 43200;
+				}
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(AMorPM == "AM"){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(AMorPM == "PM"){
+					result = convertToRadians(numberValue1, 12, "PM");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericos, dos caracteres de los dos puntos [:], y 'AM' o 'PM'. Dos caracteres de los dos puntos son requeridos, pero no se permite usarlos mas que dos vez. Si no hay un 'AM' o 'PM', se asume 'AM'. No se permiten números decimales. Gracias.");
+		}
+	}else if(fromSelected1 == 14){ //Horario De 12 Horas Con Segundos Decimal
+		pattern6BooleanDecimal = pattern6.test(fromTextValue) == true;
+		checkTextArray = fromTextValue.match(pattern24);
+		checkTextArray1 = fromTextValue.match(pattern9);
+		if(checkTextArray == null){
+			checkTextArray = ["Invalid", "Input", "Entered"];
+		}
+		if(checkTextArray1 == null && pattern6.test(fromTextValue) == true){
+			checkTextArray1 = ["Invalid", "Input", "Entered"];
+		}else if(pattern6.test(fromTextValue) == false){
+			checkTextArray1 = ["Valid", "Input"];
+		}
+		potentiallyValid12hDecimal = pattern28.test(fromTextValue) == false && checkTextArray.length == 2 && checkTextArray1.length <= 2;
+		if(potentiallyValid12hDecimal == true){
+				if(pattern23.test(fromTextValue) == false && pattern25.test(fromTextValue) == false){
+					if(pattern6BooleanDecimal == true){
+						if(pattern7.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true){
+							if(pattern16.test(fromTextValue)){
+								if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+									checkDecimalArray = fromTextValue.split(":");
+									for(i = 0; i < 3; i++){
+										isValid = true;
+										checkTextArray4 = checkDecimalArray[i].match(pattern16);
+										if(checkTextArray4 != null){
+											if(checkTextArray4.length >= 2){
+												isValid = false;
+											}
+										}
+									}
+								}else{
+									isValid = false;
+								}
+							}else{
+								isValid = true;
+							}
+						}else{
+							isValid = false;
+						}
+					}else{
+						if(pattern9.test(fromTextValue) == false){
+							if(pattern16.test(fromTextValue)){
+								if(pattern20.test(fromTextValue) == false && pattern21.test(fromTextValue) == false){
+									checkDecimalArray = fromTextValue.split(":");
+									for(i = 0; i < 3; i++){
+										isValid = true;
+										checkTextArray4 = checkDecimalArray[i].match(pattern16);
+										if(checkTextArray4 != null){
+											if(checkTextArray4.length >= 2){
+												isValid = false;
+											}
+										}
+									}
+								}else{
+									isValid = false;
+								}
+							}else{
+								isValid = true;
+							}						
+						}else{
+							isValid = false;
+						}
+					}
+				}else{
+					isValid = false;
+				}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			fromTextValueArray = fromTextValue.split(":");
+			denominatorAMorPMarray = fromTextValueArray[2].split(" ");
+			if(fromTextValueArray[0] == 12){
+				fromTextValueArray[0] = 0;
+			}
+			numberValue1 = (fromTextValueArray[0] * 3600) + (fromTextValueArray[1] * 60) + (denominatorAMorPMarray[0] * 1);
+			if(denominatorAMorPMarray[1] == null){
+				AMorPM = "AM";
+			}else{
+				AMorPM = denominatorAMorPMarray[1];
+			}
+			AMorPM = AMorPM.toUpperCase();
+			if(toSelected1 == 0){
+				if(AMorPM == "PM"){
+					numberValue1 += 43200;
+				}
+				result = convertToRadians(numberValue1, 24, "");
+			}else{
+				if(AMorPM == "AM"){
+					result = convertToRadians(numberValue1, 12, "AM");
+				}else if(AMorPM == "PM"){
+					result = convertToRadians(numberValue1, 12, "PM");
+				}
+			}
+			toInputTextbox.value = result;
+		}else{
+			alert("¡Dato inválido en la caja de texto \"de\"! Solo usa carácters númericosy(se puede usar un punto decimal [.] para los segundos), dos caracteres de los dos puntos [:], y 'AM' o 'PM'. Dos caracteres de los dos puntos son requeridos, pero no se permite usarlos mas que dos vez. Si no hay un 'AM' o 'PM', se asume 'AM'. No se permiten números decimales. Gracias.");
+			alert("Invalid input in 'from' textbox! Please input numerical characters, two colons, and either 'AM' or 'PM' only. Two colons are required, but no extra colons are allowed. If there is no 'AM' nor 'PM', 'AM' will be assumed. Thank you.");
+		}
+	}
+
+}
+
+function convertPi(stringInput){ //Convierte cadena (puede incluir pi)
+	var stringInputArray = stringInput.split("π");
+	var piQuantity = stringInput.match(/π/g);
+	var numberValue = 0;
+	var i;
+	
+
+	for(i = 0; i < stringInputArray.length; i++){
+		numberValue += stringInputArray[i] / 1;
+	}
+	
+	if(stringInputArray.length > 1){
+		numberValue *= Math.pow(Math.PI, stringInputArray.length - 1);
+	}
+	
+	if(numberValue == 0 && piQuantity != null){
+		numberValue = Math.pow(Math.PI, piQuantity.length);
+	}
+
+	return numberValue;
+}
+
+function convertToStandard(numberInput, selection2, returnSelection){ //Convierte a Estandard
+	var hours;
+	var minutes;
+	var seconds;
+	var amPM;
+
+	if(selection2 == 2){
+		hours = Math.floor(numberInput / 3600);
+		minutes = (Math.floor(numberInput / 60)) - (hours * 60);
+		seconds = numberInput - (minutes * 60) - (hours * 3600);
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}else if(selection2 == 3){
+		return numberInput / 3600;
+	}else if(selection2 == 4){
+		hours = Math.floor(numberInput / 3600);
+		minutes = (numberInput / 60) - (hours * 60);
+		seconds = -1;
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}else if(selection2 == 5){
+		hours = Math.floor(numberInput / 3600);
+		minutes = -1;
+		seconds = numberInput - (hours * 3600);
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}else if(selection2 == 6) {
+		return numberInput / 60;
+	}else if(selection2 == 7){
+		hours = -1;
+		minutes = Math.floor(numberInput / 60);
+		seconds = numberInput - (minutes * 60);
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}else if(selection2 == 8){
+		return numberInput;
+	}else if(selection2 <= 11){
+		hours = Math.floor(numberInput / 3600);
+		minutes = (Math.floor(numberInput / 60)) - (hours * 60);
+		seconds = numberInput - (minutes * 60) - (hours * 3600);
+		hours %= 24;
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}else{
+		hours = Math.floor(numberInput / 3600);
+		minutes = (Math.floor(numberInput / 60)) - (hours * 60);
+		seconds = numberInput - (minutes * 60) - (hours * 3600);
+		hours %= 24;
+		if(hours < 12){
+			amPM = "AM";
+		}else{
+			amPM = "PM";
+		}
+		hours %= 12;
+		return returnSelectionFunction(returnSelection, hours, minutes, seconds, amPM);	
+	}
+}
+
+function convertToRadians(inputNumber, hourClock, amPM_1){ //Convierte a Radianes
+	var adjustedNumber;
+	var numerator;
+	var denominator;
+	var result;
+	var testNumber;
+	var decimalDigits = 0;
+	var tenMultiple;
+
+	if(inputNumber % 1 == 0){
+		if(hourClock == 24){
+			numerator = simplify(inputNumber, 43200, false);
+			denominator = simplify(inputNumber, 43200, true);
+			result = numerator + "π/" + denominator;
+
+			if(numerator == 0){
+				result = 0;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π";
+			}else if(numerator == 1){
+				result = "π/" + denominator;
+			}else if(denominator == 1){
+				result = numerator + "π";
+			}
+
+		}else if(hourClock == 12){
+			numerator = simplify(inputNumber, 21600, false);
+			denominator = simplify(inputNumber, 21600, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0 + " " + amPM_1;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π " + amPM_1;
+			}else if(numerator == 1){
+				result = "π/" + denominator + " " + amPM_1;
+			}else if(denominator == 1){
+				result = numerator + "π " + amPM_1;
+			}
+		}
+	}else{
+		testNumber = inputNumber;
+		testNumber %= 1;
+
+		console.log("Test: " + testNumber);
+		
+		while(testNumber > 0){
+			testNumber = (testNumber * 10) % 1;
+			decimalDigits++;
+
+			console.log("Test: " + testNumber);
+			console.log("Decimal Digits: " + decimalDigits);
+		}
+
+		tenMultiple = Math.pow(10, decimalDigits);
+		adjustedNumber = inputNumber * tenMultiple;
+
+		if(hourClock == 24){
+			numerator = simplify(adjustedNumber, 43200 * tenMultiple, false);
+			denominator = simplify(adjustedNumber, 43200 * tenMultiple, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π";
+			}else if(numerator == 1){
+				result = "π/" + denominator;
+			}else if(denominator == 1){
+				result = numerator + "π";
+			}
+		}else if(hourClock == 12){
+			numerator = simplify(adjustedNumber, 21600 * tenMultiple, false);
+			denominator = simplify(adjustedNumber, 21600 * tenMultiple, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0 + " " + amPM_1;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π " + amPM_1;
+			}else if(numerator == 1){
+				result = "π/" + denominator + " " + amPM_1;
+			}else if(denominator == 1){
+				result = numerator + "π " + amPM_1;
+			}
+		}
+	}
+	
+	return result;
+}
+
+function simplify(numerator, denominator, returnDenominator){ //Encuentra el MCD usando el algoritmo de Euclides.
+	var numberA = Math.max(numerator, denominator); //Número A es iqual al máximo del numerador y denominador.
+	var numberB = Math.min(numerator, denominator); //Número B es iqual al minimo del numerador y denominador.
+	var remainder, gcd;
+
+	while (numberB > 0){ //Haz esto hasta que número B es menor o iqual a 0. 
+		remainder = numberA % numberB; //Resto de número A dividido por número B.
+		numberA = numberB; //Número A es iqual a número B.
+		numberB = remainder; //Número B es iqual al resto.
+	}
+	
+	gcd = numberA; //El MCD es número A.
+
+	numerator /= gcd; //Simplifica el numerador
+	denominator /= gcd; //Simplifica el denominador
+	
+	//Determinar qual número se reporta
+	if(returnDenominator == false){
+		return numerator;
+	}else if(returnDenominator == true){
+		return denominator;
+	}
+}
+
+function returnSelectionFunction(returnSelectionInput, hoursInput, minutesInput, secondsInput, amPM_input){
+	if(returnSelectionInput == "h"){
+		return hoursInput;
+	}else if(returnSelectionInput == "m"){
+		return minutesInput;
+	}else if(returnSelectionInput == "s"){
+		return secondsInput;
+	}else if(returnSelectionInput == "amPM"){
+		return amPM_input;
+	}
+}
+
+//Borra toda la información cuando el botón está presionada.
+function clearFunction(){
+	if(confirm("¿Borra toda la información en los campos de texto ('ok' para sí y 'cancel' para no)?") == true){
+		document.getElementById("fromInput").value = "";
+		document.getElementById("toInput").value = "";
+	}
+}
+</script>
+</body>
+</html>

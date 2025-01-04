@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang = "es-MX">
+<head>
+<meta charset = "UTF-8"/>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+<link rel = "stylesheet" type = "text/css" href = "../css/websiteLayout.css"/>
+<title>Explicación del Reloj de Pi Usando Radianes</title>
+<link rel = "icon" type = "image/x-icon" href = "../images/PiClockLogo.png"/>
+</head>
+<body>
+<div class = "topHeader">
+	<h1>Reloj de Pi</h1>
+	<img src = "../images/PiClockLogo.png" alt = "Pi Clock Logo" style = "max-width: 100%; height: auto;"/>
+</div>
+<div class = "navigation layout2">
+	<a href = "inicio.html">Inicio</a>
+	<a href = "explicacion.html">Explicación</a>
+	<a href = "calculadora.html">Calculadora de Conversiones</a>
+	<a href = "zonahoraria.html">Calculadora de Zonas Horarias</a>
+	<a href = "explanation.html" class = "language languageLayout2">English</a>
+</div>
+<h1>Explicación del Reloj de Pi</h1>
+<p>
+¡Les damos la bienvenida a este sitio web! Usted puede estar pensando como sirve nuestro Reloj de Pi, o que la terminología (por ejemplo, división de hora o hora de radián) se refiere. Esta página web explicara lo que significa la terminología, y también como sirve el Reloj de Pi. Usted puede saber partes de esta explicación; por ejemplo, puede ser que usted ya sabe que es un radián. Usted puede ir directamente a la sección donde hay nueva información.
+</p>
+<h2>Radianes</h2>
+<p>El Reloj de Pi esta basado en el reloj analógico, donde la manecilla de la hora revuelve cada 12 horas (horario de 12 horas) o 24 horas (horario de 24 horas). La revolución de la manecilla de la hora es un angulo, medidia de la línea de las 12 (horario de 12 horas) o de las 0 horas (horario de 24 horas), en el punto más alto del reloj. En la vida cotidania, los angulos están medidos en grados; sin embargo, hay otra forma de medir angulos - radianes.
+</p>
+<p>
+Radianes miden angulos, pero están basados en el diametro del circulo. Un radián es iqual al angulo creado por el arco del circulo con la misma longitud que el radio del circulo.
+</p>
+<p>Demostración de la defenición del radián:</p>
+<img src = "../images/Circle_radians.gif" alt = "Demostración de como se define el radián" style = "max-width: 100%; height: auto;"/>
+<p>De Lucas Vieira - Trabajo propio, Dominio público, <a href = "https://commons.wikimedia.org/w/index.php?curid=25112326">https://commons.wikimedia.org/w/index.php?curid=25112326</a></p>
+<p>El Reloj de Pi mide la hora tomando el angulo de la manecilla del la hora (en radiánes), y usa ese angulo como la hora.</p>
+<h2>Precisión</h2>
+<p>
+El Reloj de Pi mide el angulo de la manecilla de la hora, pero no puede tener precisión infinita. Sería imposible fijarse en la hora, y sería inusable, porque alguien no podría ver o escribir la hora. Entonces, se necesita especificar una precisión. Hay dos tipos de precisión: división de unidad, y unidad de radián. Estos dos tipos de precisiones están basados en una unidad (para este sitio web, usamos horas, minutos, o segundos). Estos tipos de precisiones son únicos en el horario de 24 horas y el horario de 12 horas.
+</p>
+<h3>División de Unidad</h3>
+<p>
+La división de unidades son un tipo de precisión. División de Unidades están basados en tomando cuantas unidades hay en un día, y dividiendo eso como el denominador no simplificado (por ejemplo, hay 24 horas en un día, entonces la hora en precisión de división de hora cambian en incrementos de π/24 radianes). En precisión de división de unidad, la hora cambia cada vez que el angulo alcanza estos incrementos; en el horario de 24 horas división de unidad, la hora cambia cada media hora (30 minutos). Esto también aplica para el horario de 12 horas; la hora también cambia en estos incrementos sin importar si se usa el horario de 24 horas o el horario de 12 horas. Sin embargo, la frecuencía que la hora cambia es doble que en el horario de 24 horas, porque la manecilla de la hora hace una revolución completa (2π radians) cada 12 horas, comparada a cada 24 horas en el horario de 24 horas (en la división de hora del horario de 12 horas, la hora cambia cada cuarta de una hora, 15 minutos, no cada media hora, 30 minutos).
+</p>
+<p>Demonstración de como se construyen la hora de división (cada unidad representa π/12 radianes, un incremento en la precisión de la hora de división):</p>
+<img src = "../images/Unit-Divisions_Demonstration.jpg" alt = "Demonstración de la construción de la hora de división" style = "max-width: 100%; height: auto;"/>
+<p>Imagen es original del autor de la página web</p>
+<h3>Unidad de Radián</h3>
+<p>
+La unidad de radián son otro tipo de precisión. La unidad de radián están basados en la duración de una unidad, comparado a cuantas unidades hay en un día. Por ejemplo, la hora solo cambia cuando pasa una hora, no cuando pasa media hora o una cuarta de una hora. Sin embargo, el incremento de la hora cuando hay precisión de unidad de radián va ser menos compardo a la hora cuando hay precisión de división de unidad. La frecuencía que el tiempo cambia no cambia en el horario de 24 horas y el horario de 12 horas, pero los incrementos si cambian (por ejemplo, en el horario de 24 horas, el incremento en que la hora cambia es π/12 radianes; en el horario de 12 horas, este incremento es π/6 radianes).
+</p>
+<h3>Redondeo</h3>
+<p>
+Hay algo involucrado de medir la hora en radianes. La hora cambia en incrementos, ¿pero que pasa cuando la hora está entre dos incrementos (casi todo el tiempo)? Cuando se mide, la hora siempre se redonda abajo (en el reloj, se redonda en el sentido contra del reloj). Por ejemplo, si la hora es exactamente π/12 radianes (cuando la hora es exacta, cualquier tipo de precisión da el mismo resultado, pero cuando la hora no es exacta, el tipo de precisión afecta la medida de la hora; la hora exacta es hipotéticamente posible, pero no es viable a medir en la vida real). Si se usa la precisión de hora de rádian en el horario de 24 horas, π/24 radianes después, la hora todavía será π/12 usando la precisión de hora de radián (pero si se usa la precisión de minuto de radián, la hora no sería π/24 radianes). Esto se da porque se redonda la hora abajo, y también en el sentido contra del reloj (0 radianes se puede considerar más alto, si por ejemplo es exactamente 23π/12 radianes, cuando se usa precisión de hora de radián, si pasan π/24 radianes, se redonda a 23π/12 radianes, no 0 radianes, porque 0 radianes también se pueden considerar como 2π radianes).
+</p>
+<p>Demonstración en como se redonda la hora:</p>
+<img src = "../images/PiClockRounding.png" alt = "Demostracion del redondeo de la hora" style = "max-width: 100%; height: auto;"/>
+<p>Imagen es original del autor de la página web</p>
+<h3>Tabla de los tipos de precisión</h3>
+<h4>Horario de 24 horas</h4>
+<table>
+	<tr>
+		<th>Tipo de Precisión</th>
+		<th>Frecuencía</th>
+		<th>Incrementos</th>
+	</tr>
+	<tr>
+		<td>División de Segundo en el horario de 24 horas</td>
+		<td>Cada medio segundo (500 milisegundos)</td>
+		<td>π/86400 radianes</td>
+	</tr>
+		<tr>
+		<td>Segundo de Radián en el horario de 24 horas</td>
+		<td>Cada segundo</td>
+		<td>π/43200 radianes</td>
+	</tr>
+	<tr>
+		<td>División de Minuto en el horario de 24 horas</td>
+		<td>Cada medio minuto (30 segundos)</td>
+		<td>π/1440 radianes</td>
+	</tr>
+	<tr>
+		<td>Minutos de Radián en el horario de 24 horas</td>
+		<td>Cada minuto</td>
+		<td>π/720 radianes</td>
+	</tr>
+	<tr>
+		<td>División de Hora en el horario de 24 horas</td>
+		<td>Cada media hora (30 minutos)</td>
+		<td>π/24 radianes</td>
+	</tr>
+	<tr>
+		<td>Hora de Radián en el horario de 24 horas</td>
+		<td>Cada hora</td>
+		<td>π/12 radianes</td>
+	</tr>
+</table>
+<h4>Horario de 12 horas</h4>
+<table>
+	<tr>
+		<th>Tipo de Precisión</th>
+		<th>Frecuencía</th>
+		<th>Incrementos</th>
+	</tr>
+	<tr>
+		<td>División de Segundo en el horario de 12 horas</td>
+		<td>Cada cuatro de un segundo (250 milisegundos)</td>
+		<td>π/86400 radianes</td>
+	</tr>
+	<tr>
+		<td>Segundo de Radián en el horario de 12 horas</td>
+		<td>Cada segundo</td>
+		<td>π/21600 radianes</td>
+	</tr>
+	<tr>
+		<td>División de Minuto en el horario de 12 horas</td>
+		<td>Cada cuarto de un minuto (15 segundos)</td>
+		<td>π/1440 radianes</td>
+	</tr>
+	<tr>
+		<td>Minuto de Radián en el horario de 12 horas</td>
+		<td>Every minute</td>
+		<td>π/360 radianes</td>
+	</tr>
+	<tr>
+		<td>División de Hora en el horario de 12 horas</td>
+		<td>Cada cuarta de una hora (15 minutos)</td>
+		<td>π/24 radianes</td>
+	</tr>
+	<tr>
+		<td>Hora de Radián en el horario de 12 horas</td>
+		<td>Cada hora</td>
+		<td>π/6 radianes</td>
+	</tr>
+</table>
+<h2>Fuentes</h2>
+<p>Las fuentes para la información están listadas; las fuentes para las imagenes ya están listadas: </p>
+<p>Explicación de los radianes (en inglés): Math Is Fun - Radians. Link: <a href = "https://www.mathsisfun.com/geometry/radians.html">https://www.mathsisfun.com/geometry/radians.html</a> </p>
+<p>Explicación del Reloj de Pi y precisión: explicación propia</p>
+<div class = "bottomFooter">
+	<a href = "https://docs.google.com/forms/d/e/1FAIpQLSdh2g9OQ0HjN4Oga8JUab-PowJDo5zFEyftpgxzSypxl8VddQ/viewform?usp=sharing">Reporta Error de Programación o Manda Sugerencias</a>
+	<p>Reloj de Pi 2023 - 2024</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang = "es-MX">
+<head>
+<meta charset = "UTF-8"/>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+<link rel = "stylesheet" type = "text/css" href = "../css/websiteLayout.css"/>
+<title>Calculadora de Zonas Horarias para el Reloj de Pi Usando Radianes</title>
+<link rel = "icon" type = "image/x-icon" href = "../images/PiClockLogo.png"/>
+</head>
+<body>
+<div class = "topHeader">
+	<h1>Reloj de Pi</h1>
+	<img src = "../images/PiClockLogo.png" alt = "Logo del Reloj de Pi" style = "max-width: 100%; height: auto;"/>
+</div>
+<div class = "navigation layout2">
+	<a href = "inicio.html">Inicio</a>
+	<a href = "explicacion.html">Explicación</a>
+	<a href = "calculadora.html">Calculadora de Conversiones</a>
+	<a href = "zonahoraria.html">Calculadora de Zonas Horarias</a>
+	<a href = "timezone.html" class = "language languageLayout2">English</a>
+</div>
+<h1>Calculadora de Zonas Horarias</h1>
+<p>¡Les damos la bienvenida a la Calculadora de Conversiones de la Hora! Está calculadora convierte la hora (en radianes) en un huso horario a la hora (en radianes) en otro huso horario. Está calculadora no usa fechas ni días de la semana para convertir la hora. Sin embargo, si la hora es en un día diferente, mencionará si la hora es en el día anterior o el próximo día (o en algunos casos, dos días antes o dos días después). El huso horario predeterminado para la lista desplegable "de" es el huso horario que usted está usando en este momento. El huso horario para la lista desplegable "a" es UTC, a menos que usted está convirtiendo de UTC, donde el huso horario preddeterminado es el huso horario que usted está usando en este momento, o usted está usando el huso horario de UTC, en donde el huso horario predeterminado es UTC+1.</p>
+<div class = "calculator">
+	<div class = "clock" id = "clockType">
+		<p>Elige el sistema de 24 horas o el sistema de 12 horas:</p>
+		<select id = "clockSelection">
+			<option selected>Sistema de 24 horas</option>
+			<option>Sistema de 12 horas</option>
+		</select>
+	</div>
+	<div class = "from" id = "fromElement">
+		<p>De:</p>
+		<select id = "fromSelection" oninput = "checkInput('from');">
+			<option id = "fromDefault" onclick = "checkInput('initial')">Zona horaria predeterminado</option>
+			<option id = "-12">UTC-12</option>
+			<option id = "-11">UTC-11</option>
+			<option id = "-10">UTC-10</option>
+			<option id = "-9.5">UTC-9:30</option>
+			<option id = "-9">UTC-9</option>
+			<option id = "-8">UTC-8</option>
+			<option id = "-7">UTC-7</option>
+			<option id = "-6">UTC-6</option>
+			<option id = "-5">UTC-5</option>
+			<option id = "-4">UTC-4</option>
+			<option id = "-3.5">UTC-3:30</option>
+			<option id = "-3">UTC-3</option>
+			<option id = "-2.5">UTC-2:30</option>
+			<option id = "-2">UTC-2</option>
+			<option id = "-1">UTC-1</option>
+			<option id = "0">UTC</option>
+			<option id = "1">UTC+1</option>
+			<option id = "2">UTC+2</option>
+			<option id = "3">UTC+3</option>
+			<option id = "3.5">UTC+3:30</option>
+			<option id = "4">UTC+4</option>
+			<option id = "4.5">UTC+4:30</option>
+			<option id = "5">UTC+5</option>
+			<option id = "5.5">UTC+5:30</option>
+			<option id = "5.75">UTC+5:45</option>
+			<option id = "6">UTC+6</option>
+			<option id = "6.5">UTC+6:30</option>
+			<option id = "7">UTC+7</option>
+			<option id = "8">UTC+8</option>
+			<option id = "8.75">UTC+8:45</option>
+			<option id = "9">UTC+9</option>
+			<option id = "9.5">UTC+9:30</option>
+			<option id = "10">UTC+10</option>
+			<option id = "10.5">UTC+10:30</option>
+			<option id = "11">UTC+11</option>
+			<option id = "12">UTC+12</option>
+			<option id = "12.75">UTC+12:45</option>
+			<option id = "13">UTC+13</option>
+			<option id = "13.75">UTC+13:45</option>
+			<option id = "14">UTC+14</option>
+		</select>
+		<br/>
+		<br/>
+		<input type = "text" id = "fromInput"/>
+		<br/>
+		<br/>
+		<input type = "button" id = "inputPi" value = "Añade π" onclick = "insertPi();"/>
+		<div id = "fromPiContainer">
+		</div>
+		<br/>
+	</div>
+	<div class = "to" id = "toElement">
+		<p>A:</p>
+		
+		<select id = "toSelection" oninput = "checkInput('to');">
+			<option id = "toDefault" onclick = "checkInput('initial')">Zona horaria predeterminado</option>
+			<option id = "15">UTC-12</option>
+			<option id = "16">UTC-11</option>
+			<option id = "17">UTC-10</option>
+			<option id = "17.5">UTC-9:30</option>
+			<option id = "18">UTC-9</option>
+			<option id = "19">UTC-8</option>
+			<option id = "20">UTC-7</option>
+			<option id = "21">UTC-6</option>
+			<option id = "22">UTC-5</option>
+			<option id = "23">UTC-4</option>
+			<option id = "23.5">UTC-3:30</option>
+			<option id = "24">UTC-3</option>
+			<option id = "24.5">UTC-2:30</option>
+			<option id = "25">UTC-2</option>
+			<option id = "26">UTC-1</option>
+			<option id = "27" selected>UTC</option>
+			<option id = "28">UTC+1</option>
+			<option id = "29">UTC+2</option>
+			<option id = "30">UTC+3</option>
+			<option id = "30.5">UTC+3:30</option>
+			<option id = "31">UTC+4</option>
+			<option id = "31.5">UTC+4:30</option>
+			<option id = "32">UTC+5</option>
+			<option id = "32.5">UTC+5:30</option>
+			<option id = "32.75">UTC+5:45</option>
+			<option id = "33">UTC+6</option>
+			<option id = "33.5">UTC+6:30</option>
+			<option id = "34">UTC+7</option>
+			<option id = "35">UTC+8</option>
+			<option id = "35.75">UTC+8:45</option>
+			<option id = "36">UTC+9</option>
+			<option id = "36.5">UTC+9:30</option>
+			<option id = "37">UTC+10</option>
+			<option id = "37.5">UTC+10:30</option>
+			<option id = "38">UTC+11</option>
+			<option id = "39">UTC+12</option>
+			<option id = "39.75">UTC+12:45</option>
+			<option id = "40">UTC+13</option>
+			<option id = "40.75">UTC+13:45</option>
+			<option id = "41">UTC+14</option>
+		</select>
+		<br/>
+		<br/>
+		<input type = "text" id = "toInput" readonly/>
+		<br/>
+		<br/>
+		<div id = "toPiContainer">
+		</div>
+		<br/>
+	</div>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<input type = "button" class = "convert convertButton" value = "Convierte" onclick = "convertFunction();"/>
+	<input type = "button" class = "convert clearButton" value = "Restablecer" onclick = "clearFunction();"/>
+</div>
+<div class = "bottomFooter">
+	<a href = "https://docs.google.com/forms/d/e/1FAIpQLSdh2g9OQ0HjN4Oga8JUab-PowJDo5zFEyftpgxzSypxl8VddQ/viewform?usp=sharing">Reporta Error de Programación o Manda Sugerencias</a>
+	<p>Reloj de Pi 2023 - 2024</p>
+</div>
+<script>
+var timezoneOffset = new Date().getTimezoneOffset();
+var timezone = timezoneOffset / -60;
+checkInput('initial');
+
+function checkInput(selection){
+	//Declaraciones de Variables
+	var fromOption = document.getElementById("fromSelection");
+	var toOption = document.getElementById("toSelection");
+	var fromSelected = fromOption.options.selectedIndex;
+	var toSelected = toOption.options.selectedIndex;
+	var fromText = document.getElementById("fromInput");
+	var toText = document.getElementById("toInput");
+	
+	if(selection == "initial"){ //Selecciona los huso horarios predeterminados.
+		if(fromOption.options.selectedIndex == 0){
+			document.getElementById(timezone).selected = "true";
+			fromSelected = fromOption.options.selectedIndex;
+			checkInput('from');
+		}
+
+		if(toOption.options.selectedIndex == 0){
+			if(timezone !== 0){
+				toOption.options.selectedIndex = "16";
+				toSelected = "16";
+				checkInput('to');
+			}else{
+				toOption.options.selectedIndex = "17";
+				toSelected = "17";
+				checkInput('to');
+			}
+		}
+	}
+
+	if(fromSelected == toSelected){
+		if(selection == "from"){ //Si la selección "de" está cambiado, cambia la selección "a" .
+			if(fromSelected != 16){
+				toOption.options.selectedIndex = "16";
+				toSelected = "16";
+			}else{
+				if(timezone !== 0){
+					toOption.options.selectedIndex = document.getElementById(timezone).index;
+					toSelected = document.getElementById(timezone).index;
+				}else{
+					toOption.options.selectedIndex = "17";
+					toSelected = "17";
+				}
+			}
+		}else if(selection == "to"){ //Si la selección "a" está cambiado, cambia la selección "de".
+			if(toSelected != 16){
+				fromOption.options.selectedIndex = "16";
+				fromSelected = "16";
+			}else{
+				if(timezone !== 0){
+					toOption.options.selectedIndex = document.getElementById(timezone).index;
+					toSelected = document.getElementById(timezone).index;
+				}else{
+					toOption.options.selectedIndex = "17";
+					toSelected = "17";
+				}
+			}
+		}
+	}
+
+}
+
+//Haz las conversiones cuando el botón para convertir está presionada.
+function convertFunction(){
+	//Declaraciones de Variables
+	var fromOption1 = document.getElementById("fromSelection");
+	var toOption1 = document.getElementById("toSelection");
+	var clockType1 = document.getElementById("clockSelection");
+	var fromSelected1 = fromOption1.options.selectedIndex;
+	var toSelected1 = toOption1.options.selectedIndex;
+	var clockSelected1 = clockType1.options.selectedIndex;
+	var fromTimeZone = (fromOption1[fromSelected1].id) - 0;
+	var toTimeZone = (toOption1[toSelected1].id) - 27;
+	var fromInputTextbox = document.getElementById("fromInput");
+	var toInputTextbox = document.getElementById("toInput");
+	var fromTextValue = fromInputTextbox.value;
+	var toTextValue = toInputTextbox.value;
+	var numberValue1;
+	var timeDifference = toTimeZone - fromTimeZone;
+	var timeDifferenceSeconds = timeDifference * 3600;
+	var pattern1 = /[^0-9π\/]/;
+	var pattern2 = /\//g;
+	var pattern3 = /\/(?=[0-9π])/;
+	var pattern4 = /^\//;
+	var pattern5 = /[^0-9π\/apmAPM\s]/;
+	var pattern6 = /\s/g;
+	var pattern7 = /\s(?=[apmAPM])/;
+	var pattern8 = /[0-9π](?=\s)/;
+	var pattern9 = /[apmAPM]/g;
+	var pattern10 = /[apAP](?=[mM])/;
+	var pattern11 = /[mM]$/;
+	var checkTextArray = [];
+	var checkTextArray1 = [];
+	var checkTextArray2 = [];
+	var checkTextArray3 = [];
+	var checkTextArray4 = [];
+	var checkDecimalArray = [];
+	var fraction_AMPM;
+	var fraction_noAMPM;
+	var nonFraction_AMPM;
+	var nonFraction_noAMPM;
+	var pattern6Boolean;
+	var potentiallyValid12hInteger;
+	var pattern6BooleanInteger;
+	var potentiallyValid12hDecimal;
+	var pattern6BooleanDecimal;
+	var isValid;
+	var includesFraction;
+	var includesAMPM;
+	var fromTextValueArray;
+	var numerator;
+	var denominator;
+	var AMorPM
+	var denominatorAMorPMarray;
+	var result;
+	var timeZoneResult;
+	var previousOrNextDay = "";
+	var radiansResult;
+	var i;
+
+	if(clockSelected1 == 0){ //Radianes de 24 Horas
+		checkTextArray = fromTextValue.match(pattern2);
+		if(pattern1.test(fromTextValue) == false){
+			if(pattern2.test(fromTextValue) == false){
+				isValid = true;
+				includesFraction = false;
+			}else if(pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && checkTextArray.length < 2){
+				isValid = true;
+				includesFraction = true;
+			}else{
+				isValid = false;
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			if(includesFraction == true){
+				fromTextValueArray = fromTextValue.split("/");
+				numerator = fromTextValueArray[0];
+				denominator = fromTextValueArray[1];
+				numerator = convertPi(numerator);
+				denominator = convertPi(denominator);
+				numberValue1 = numerator / denominator;
+			}else{
+				numberValue1 = convertPi(fromTextValue);
+			}
+
+			result = Math.round(100 * numberValue1 * (43200/Math.PI))/100;
+			timeZoneResult = result + timeDifferenceSeconds;
+			
+			//Ajustar para tomar en cunta el cambio de día (si se necesita)
+			if(timeZoneResult < 0 && timeZoneResult >= -86400){
+				timeZoneResult += 86400;
+				previousOrNextDay = " Día Anterior";
+			}else if(timeZoneResult < -86400){
+				timeZoneResult += 172800;
+				previousOrNextDay = " Dos Días Antes"
+			}else if(timeZoneResult >= 86400 && timeZoneResult <172800){
+				timeZoneResult -= 86400;
+				previousOrNextDay = " Próximo Día"
+			}else if(timeZoneResult >= 172800){
+				timeZoneResult -= 172800;
+				previousOrNextDay = " Dos Días Despues"
+			}
+			
+			radiansResult = convertToRadians(timeZoneResult, 24, "");
+			toInputTextbox.value = radiansResult + previousOrNextDay;
+		}else{
+			alert("¡Dato inválido en la caja de texto 'de'! Solo usa carácters numéricos, el carácter de pi, o la barra [/], sin espacios. Asegurase que cualquier uso de la barra incluye un número antes y despues de la barra, y ese número puede incluir el carácter de pi. La barra solo se puede usar una vez. No se permiten los números decimales, por favor solo usa fracciones. Gracias.");
+		}
+	}else{ //Radianes de 12 Horas
+		checkTextArray = fromTextValue.match(pattern2);
+		checkTextArray1 = fromTextValue.match(pattern6);
+		checkTextArray2 = fromTextValue.match(pattern9);
+		fraction_AMPM = pattern9.test(fromTextValue) == true && pattern7.test(fromTextValue) == true && pattern8.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true && pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && checkTextArray.length < 2 && checkTextArray1.length < 2 && checkTextArray2.length == 2;
+		fraction_noAMPM = pattern3.test(fromTextValue) == true && pattern4.test(fromTextValue) == false && pattern9.test(fromTextValue) == false;
+		nonFraction_AMPM = pattern9.test(fromTextValue) == true && pattern7.test(fromTextValue) == true && pattern8.test(fromTextValue) == true && pattern10.test(fromTextValue) == true && pattern11.test(fromTextValue) == true && checkTextArray1.length < 2 && checkTextArray2.length == 2;
+		nonFraction_noAMPM = pattern2.test(fromTextValue) == false && pattern6.test(fromTextValue) == false && pattern9.test(fromTextValue) == false;
+		pattern6Boolean = pattern6.test(fromTextValue) == true;
+		if(pattern5.test(fromTextValue) == false){
+			if(nonFraction_noAMPM == true){
+				isValid = true;
+				includesFraction = false;
+				includesAMPM = false;
+			}else{
+				console.log(pattern2.test(fromTextValue)); //No se debe quitar; la calculadora no trabajará sin este código.
+				if(pattern2.test(fromTextValue) == true){
+					if(pattern6Boolean == true){
+						if(fraction_AMPM == true){
+							isValid = true;
+							includesFraction = true;
+							includesAMPM = true;
+						}else{
+							isValid = false;
+
+						}
+					}else{
+						if(fraction_noAMPM == true){
+							isValid = true;
+							includesFraction = true;
+							includesAMPM = false;
+						}else{
+							isValid = false;
+						}
+					}
+				}else if(nonFraction_AMPM == true){
+					isValid = true;
+					includesFraction = false;
+					includesAMPM = true;
+				}else{
+					isValid = false;
+				}
+			}
+		}else{
+			isValid = false;
+		}
+		if(isValid == true){
+			if(includesFraction == true){
+				fromTextValueArray = fromTextValue.split("/");
+				numerator = fromTextValueArray[0];
+				denominator = fromTextValueArray[1];
+				denominatorAMorPMarray = denominator.split(" ");
+				denominator = denominatorAMorPMarray[0];
+				AMorPM = denominatorAMorPMarray[1];
+				if(AMorPM == null){
+					AMorPM = "AM";
+				}
+				AMorPM = AMorPM.toUpperCase();
+				numerator = convertPi(numerator);
+				denominator = convertPi(denominator);
+				numberValue1 = numerator / denominator;
+				console.log("Fraction");
+			}else{
+				denominatorAMorPMarray = fromTextValue.split(" ");
+				numberValue1 = denominatorAMorPMarray[0];
+				AMorPM = denominatorAMorPMarray[1];
+				if(AMorPM == null){
+					AMorPM = "AM";
+				}
+				AMorPM = AMorPM.toUpperCase();
+				console.log(numberValue1);
+				numberValue1 = convertPi(numberValue1);
+				console.log("Non-Fraction");
+			}
+			result = Math.round(100 * numberValue1 * (21600/Math.PI))/100;
+			if(AMorPM == "PM"){
+				result += 43200;
+				console.log(result);
+			}
+			timeZoneResult = result + timeDifferenceSeconds;
+			
+			//Adjust to account for a different day (if applicable)
+			if(timeZoneResult < 0 && timeZoneResult >= -86400){
+				timeZoneResult += 86400;
+				previousOrNextDay = " Previous Day";
+			}else if(timeZoneResult < -86400){
+				timeZoneResult += 172800;
+				previousOrNextDay = " Two Days Before"
+			}else if(timeZoneResult >= 86400 && timeZoneResult <172800){
+				timeZoneResult -= 86400;
+				previousOrNextDay = " Next Day"
+			}else if(timeZoneResult >= 172800){
+				timeZoneResult -= 172800;
+				previousOrNextDay = " Two Days After"
+			}
+			
+			if(timeZoneResult < 43200){
+				radiansResult = convertToRadians(timeZoneResult, 12, "AM");
+			}else{
+				radiansResult = convertToRadians(timeZoneResult - 43200, 12, "PM");
+			}
+			
+			toInputTextbox.value = radiansResult + previousOrNextDay;
+		}else{
+			alert("¡Dato inválido en la caja de texto 'de'! Solo usa carácters numéricos, el carácter de pi, AM or PM en minúscula o mayúscula (no se permiten el uso de otros carácters), o la barra [/]. El único espacio que se puede usar es entre el número y el AM o PM. Asegurase que cualquier uso de la barra incluye un número antes y despues de la barra, y ese número puede incluir el carácter de pi. La barra solo se puede usar una vez. No se permiten los números decimales, por favor solo usa fracciones. Gracias.");
+
+		}
+	}
+
+}
+
+function convertPi(stringInput){ //Convierte cadena (puede incluir pi)
+	var stringInputArray = stringInput.split("π");
+	var piQuantity = stringInput.match(/π/g);
+	var numberValue = 0;
+	var i;
+	
+
+	for(i = 0; i < stringInputArray.length; i++){
+		numberValue += stringInputArray[i] / 1;
+	}
+	
+	if(stringInputArray.length > 1){
+		numberValue *= Math.pow(Math.PI, stringInputArray.length - 1);
+	}
+	
+	if(numberValue == 0 && piQuantity != null){
+		numberValue = Math.pow(Math.PI, piQuantity.length);
+	}
+
+	return numberValue;
+}
+
+function convertToRadians(inputNumber, hourClock, amPM_1){ //Convierte a Radianes
+	var adjustedNumber;
+	var numerator;
+	var denominator;
+	var result;
+	var testNumber;
+	var decimalDigits = 0;
+	var tenMultiple;
+
+	if(inputNumber % 1 == 0){
+		if(hourClock == 24){
+			numerator = simplify(inputNumber, 43200, false);
+			denominator = simplify(inputNumber, 43200, true);
+			result = numerator + "π/" + denominator;
+
+			if(numerator == 0){
+				result = 0;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π";
+			}else if(numerator == 1){
+				result = "π/" + denominator;
+			}else if(denominator == 1){
+				result = numerator + "π";
+			}
+
+		}else if(hourClock == 12){
+			numerator = simplify(inputNumber, 21600, false);
+			denominator = simplify(inputNumber, 21600, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0 + " " + amPM_1;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π " + amPM_1;
+			}else if(numerator == 1){
+				result = "π/" + denominator + " " + amPM_1;
+			}else if(denominator == 1){
+				result = numerator + "π " + amPM_1;
+			}
+		}
+	}else{
+		testNumber = inputNumber;
+		testNumber %= 1;
+
+		console.log("Test: " + testNumber);
+		
+		while(testNumber > 0){
+			testNumber = (testNumber * 10) % 1;
+			decimalDigits++;
+
+			console.log("Test: " + testNumber);
+			console.log("Decimal Digits: " + decimalDigits);
+		}
+
+		tenMultiple = Math.pow(10, decimalDigits);
+		adjustedNumber = inputNumber * tenMultiple;
+
+		if(hourClock == 24){
+			numerator = simplify(adjustedNumber, 43200 * tenMultiple, false);
+			denominator = simplify(adjustedNumber, 43200 * tenMultiple, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π";
+			}else if(numerator == 1){
+				result = "π/" + denominator;
+			}else if(denominator == 1){
+				result = numerator + "π";
+			}
+		}else if(hourClock == 12){
+			numerator = simplify(adjustedNumber, 21600 * tenMultiple, false);
+			denominator = simplify(adjustedNumber, 21600 * tenMultiple, true);
+			result = numerator + "π/" + denominator + " " + amPM_1;
+
+			if(numerator == 0){
+				result = 0 + " " + amPM_1;
+			}else if(numerator == 1 && denominator == 1){
+				result = "π " + amPM_1;
+			}else if(numerator == 1){
+				result = "π/" + denominator + " " + amPM_1;
+			}else if(denominator == 1){
+				result = numerator + "π " + amPM_1;
+			}
+		}
+	}
+	
+	return result;
+}
+
+function simplify(numerator, denominator, returnDenominator){ //Encuentra el MCD usando el algoritmo de Euclides.
+	var numberA = Math.max(numerator, denominator); //Número A es iqual al máximo del numerador y denominador.
+	var numberB = Math.min(numerator, denominator); //Número B es iqual al minimo del numerador y denominador.
+	var remainder, gcd;
+
+	while (numberB > 0){ //Haz esto hasta que número B es menor o iqual a 0. 
+		remainder = numberA % numberB; //Resto de número A dividido por número B.
+		numberA = numberB; //Número A es iqual a número B.
+		numberB = remainder; //Número B es iqual al resto.
+	}
+	
+	gcd = numberA; //El MCD es número A.
+
+	numerator /= gcd; //Simplifica el numerador
+	denominator /= gcd; //Simplifica el denominador
+	
+	//Determinar qual número se reporta
+	if(returnDenominator == false){
+		return numerator;
+	}else if(returnDenominator == true){
+		return denominator;
+	}
+}
+
+//Función para añadir pi cuando el botón está presionada.
+function insertPi(){
+	var fromText1 = document.getElementById("fromInput");		
+	fromText1.value = fromText1.value + "π";
+}
+
+//Borra toda la información cuando el botón está presionada.
+function clearFunction(){
+	if(confirm("¿Borra toda la información en los campos de texto ('ok' para sí y 'cancel' para no)?") == true){
+		document.getElementById("fromInput").value = "";
+		document.getElementById("toInput").value = "";
+	}
+}
+</script>
+</body>
+</html>

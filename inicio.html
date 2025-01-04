@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang = "es-MX">
+<head>
+<meta charset = "UTF-8"/>
+<meta name = "viewport" content = "width = device-width, initial-scale = 1.0"/>
+<link rel = "stylesheet" type = "text/css" href = "../css/websiteLayout.css"/>
+<title>Reloj de Pi usando radianes</title>
+<link rel = "icon" type = "image/x-icon" href = "../images/PiClockLogo.png"/>
+</head>
+<body>
+<div class = "topHeader">
+	<h1>Reloj de Pi</h1>
+	<img src = "../images/PiClockLogo.png" alt = "Pi Clock Logo" style = "max-width: 100%; height: auto;"/>
+</div>
+<div class = "navigation layout2">
+	<a href = "inicio.html">Inicio</a>
+	<a href = "explicacion.html">Explicación</a>
+	<a href = "calculadora.html">Calculadora de Conversiones</a>
+	<a href = "zonahoraria.html">Calculadora de Zonas Horarias</a>
+	<a href = "index.html" class = "language languageLayout2">English</a>
+</div>
+<h1>Precisión de Segundos</h1>
+<p>
+La hora es (precisión de segundos): 
+</p>
+<h2>Horario de 24 horas</h2>
+<h3>División de Segundo</h3>
+<p id="time">
+</p>
+<p id="timeUnsimplified">
+</p>
+<h3>Segundo de Radián</h3>
+<p id="timeRadianSeconds">
+</p>
+<p id="timeUnsimplifiedRadianSeconds">
+</p>
+<h2>Horario de 12 horas</h2>
+<h3>División de Segundo</h3>
+<p id="time12h">
+</p>
+<p id="timeUnsimplified12h">
+</p>
+<h3>Segundo de Radián</h3>
+<p id="time12hRadianSeconds">
+</p>
+<p id="timeUnsimplified12hRadianSeconds">
+</p>
+<h2>Segundos total que ha pasado hoy</h2>
+<p id="secondsSoFar">
+</p>
+<br/>
+<h1>Precisión de Minutos</h1>
+<p>
+La hora es (precisión de minutos): 
+</p>
+<h2>Horario de 24 horas</h2>
+<h3>División de Minuto</h3>
+<p id="timeMinutes">
+</p>
+<p id="timeUnsimplifiedMinutes">
+</p>
+<h3>Minuto de Radián</h3>
+<p id="timeRadianMinutes">
+</p>
+<p id="timeUnsimplifiedRadianMinutes">
+</p>
+<h2>Horario de 12 horas</h2>
+<h3>División de Minuto</h3>
+<p id="time12hMinutes">
+</p>
+<p id="timeUnsimplified12hMinutes">
+</p>
+<h3>Minuto de Radián</h3>
+<p id="time12hRadianMinutes">
+</p>
+<p id="timeUnsimplified12hRadianMinutes">
+</p>
+<h2>Minutos total que ha pasado hoy</h2>
+<p id="minutesSoFar">
+</p>
+<br/>
+<h1>Precisión de Horas</h1>
+<p>
+La hora es (precisión de horas): 
+</p>
+<h2>Horario de 24 horas</h2>
+<h3>División de Hora</h3>
+<p id="timeHours">
+</p>
+<p id="timeUnsimplifiedHours">
+</p>
+<h3>Hora de Radián</h3>
+<p id="timeRadianHours">
+</p>
+<p id="timeUnsimplifiedRadianHours">
+</p>
+<h2>Horario de 12 horas</h2>
+<h3>División de Hora</h3>
+<p id="time12hHours">
+</p>
+<p id="timeUnsimplified12hHours">
+</p>
+<h3>Hora de Radián</h3>
+<p id="time12hRadianHours">
+</p>
+<p id="timeUnsimplified12hRadianHours">
+</p>
+<h2>Horas total que ha pasado hoy</h2>
+<p id="hoursSoFar">
+</p>
+<br/>
+<h1>Relojes de pi</h1>
+<h2>Reloj de 24 horas de pi</h2>
+<canvas id="clock" width="500" height="500" style="background-color: white; border: 1px solid black"> </canvas>
+<h2>Reloj de 12 horas de pi</h2>
+<canvas id="clock12h" width = "500" height= "500" style="background-color: white; border: 1px solid black"></canvas>
+<div class = "bottomFooter">
+	<a href = "https://docs.google.com/forms/d/e/1FAIpQLSdh2g9OQ0HjN4Oga8JUab-PowJDo5zFEyftpgxzSypxl8VddQ/viewform?usp=sharing">Reporta Error de Programación o Manda Sugerencias</a>
+	<p>Reloj de Pi 2023 - 2024<br/>Alan Trujillo</p>
+</div>
+<script>
+//Código de reloj de 24 horas de pi
+var canvas = document.getElementById("clock");
+var context = canvas.getContext("2d");
+var angle;
+var radianNumerator = 0;
+var radianDenominator = 12;
+
+//Código de reloj de 12 horas de pi
+var canvas12h = document.getElementById("clock12h");
+var context12h = canvas12h.getContext("2d");
+var angle12h;
+var radianNumerator12h = 0;
+var radianDenominator12h = 6;
+
+function drawClock(){
+	//Circulo de afuera
+	context.beginPath();
+	context.arc(250, 250, 200, 0, 2 * Math.PI);
+	context.fillStyle = "black";
+	context.fill();
+	
+	//Circulo de adentro
+	context.beginPath();
+	context.arc(250, 250, 190, 0, 2 * Math.PI);
+	context.fillStyle = "white";
+	context.fill();
+	
+	//Soporte 
+	context.beginPath();
+	context.arc(250, 250, 10, 0, 2 * Math.PI);
+	context.fillStyle = "black";
+	context.fill();
+	
+	
+	//Líneas de reloj
+	for(angle = 0; angle < Math.PI * 2 - Math.PI/12; angle += Math.PI/12){
+		var xCoordinate = (Math.sin(angle) * 190) + 250; //Usa seno para x, porque el reloj está rotado π/4 radianes.
+		var yCoordinate = 250 - (Math.cos(angle) * 190); //Usa coseno para y, porque el reloj está rotado π/4 radianes.
+		var endXCoordinate = (Math.sin(angle) * 170) + 250; //Coordenada de x para el fin de la línea.
+		var endYCoordinate = 250 - (Math.cos(angle) * 170); //Coordenada de y para el fin de la línea.
+
+		//Dibuja las líneas del reloj
+		context.beginPath();
+		context.strokeStyle = "black";
+		context.moveTo(xCoordinate, yCoordinate);
+		context.lineTo(endXCoordinate, endYCoordinate);
+		context.stroke();
+	}
+
+	//Números
+	for(angle = 0; angle < Math.PI * 2 - Math.PI/12; angle += Math.PI/12){
+		
+		var simplifiedRadianNumerator = simplify(radianNumerator, radianDenominator, false);
+		var simplifiedRadianDenominator = simplify(radianNumerator, radianDenominator, true);
+
+		if(simplifiedRadianNumerator == 1){
+			simplifiedRadianNumerator = "";
+		}
+
+		//Encuentra las coordenadas
+		var numberXCoordinate = (Math.sin(angle) * 140) + 250;
+		var numberYCoordinate = 250 - (Math.cos(angle) * 140);
+		
+		//Dibuja el texto
+		context.beginPath();
+		context.font = "12px Times New Roman";
+		context.fillStyle = "black";
+		context.textAlign = "center";
+		if(simplifiedRadianDenominator == 1 && simplifiedRadianNumerator === ""){
+			context.fillText("π", numberXCoordinate, numberYCoordinate);
+			simplifiedRadianNumerator = 1;
+		}else if(simplifiedRadianDenominator == 1 && simplifiedRadianNumerator === 0){
+			context.fillText("0", numberXCoordinate, numberYCoordinate);
+		}else{
+			context.fillText(simplifiedRadianNumerator + "π/" + simplifiedRadianDenominator, numberXCoordinate, numberYCoordinate);
+		}
+		
+		radianNumerator++; //Actualiza el númerador
+	}
+}
+
+drawClock();
+
+function drawClock12h(){
+	//Dibuja el circulo de afuera
+	context12h.beginPath();
+	context12h.arc(250, 250, 200, 0, 2 * Math.PI);
+	context12h.fillStyle = "black";
+	context12h.fill();
+	
+	//Dibuja el circulo de adentro
+	context12h.beginPath();
+	context12h.arc(250, 250, 190, 0, 2 * Math.PI);
+	context12h.fillStyle = "white";
+	context12h.fill();
+	
+	//Dibuja el suporte
+	context12h.beginPath();
+	context12h.arc(250, 250, 10, 0, 2 * Math.PI);
+	context12h.fillStyle = "black";
+	context12h.fill();
+	
+	
+	//Dibuja las líneas
+	for(angle12h = 0; angle12h < Math.PI * 2; angle12h += Math.PI/6){
+		var xCoordinate12h = (Math.sin(angle12h) * 190) + 250; //El reloj está rotado π/4 radianes, entonces usa seno para x.
+		var yCoordinate12h = 250 - (Math.cos(angle12h) * 190); //El reloj está rotado π/4 radianes, entonces usa coseno para y.
+		var endXCoordinate12h = (Math.sin(angle12h) * 170) + 250; //Coordenada de x para el fin de las lineas para el reloj.
+		var endYCoordinate12h = 250 - (Math.cos(angle12h) * 170); //Coordenada de y para el fin de las lineas para el reloj.
+
+		//Dibuja las líneas del reloj en el elemento Canvas
+		context12h.beginPath();
+		context12h.strokeStyle = "black";
+		context12h.moveTo(xCoordinate12h, yCoordinate12h);
+		context12h.lineTo(endXCoordinate12h, endYCoordinate12h);
+		context12h.stroke();
+	}
+
+	//Dibuja los números
+	for(angle12h = 0; angle12h < Math.PI * 2; angle12h += Math.PI/6){
+		
+		var simplifiedRadianNumerator12h = simplify(radianNumerator12h, radianDenominator12h, false);
+		var simplifiedRadianDenominator12h = simplify(radianNumerator12h, radianDenominator12h, true);
+
+		if(simplifiedRadianNumerator12h == 1){
+			simplifiedRadianNumerator12h = "";
+		}
+
+		//Encuentra las coordenadas
+		var numberXCoordinate12h = (Math.sin(angle12h) * 140) + 250;
+		var numberYCoordinate12h = 250 - (Math.cos(angle12h) * 140);
+		
+		//Dibuja el texto en el elemento Canvas
+		context12h.beginPath();
+		context12h.font = "12px Times New Roman";
+		context12h.fillStyle = "black";
+		context12h.textAlign = "center";
+		if(simplifiedRadianDenominator12h == 1 && simplifiedRadianNumerator12h === ""){
+			context12h.fillText("π", numberXCoordinate12h, numberYCoordinate12h);
+			simplifiedRadianNumerator12h = 1;
+		}else if(simplifiedRadianDenominator12h == 1 && simplifiedRadianNumerator12h === 0){
+			context12h.fillText("0", numberXCoordinate12h, numberYCoordinate12h);
+		}else{
+			context12h.fillText(simplifiedRadianNumerator12h + "π/" + simplifiedRadianDenominator12h, numberXCoordinate12h, numberYCoordinate12h);
+		}
+		
+		radianNumerator12h++; //Actualiza el numerador
+	}
+}
+
+drawClock12h();
+	
+function simplify(numerator, denominator, returnDenominator){ //Encuentra el MCD usando el algoritmo de Euclides.
+	var numberA = Math.max(numerator, denominator); //Número A es iqual al máximo del numerador y denominador.
+	var numberB = Math.min(numerator, denominator); //Número B es iqual al minimo del numerador y denominador.
+	var remainder, gcd;
+
+	while (numberB > 0){ //Haz esto hasta que número B es menor o iqual a 0. 
+		remainder = numberA % numberB; //Resto de número A dividido por número B.
+		numberA = numberB; //Número A es iqual a número B.
+		numberB = remainder; //Número B es iqual al resto.
+	}
+	
+	gcd = numberA; //El MCD es número A.
+
+	numerator /= gcd; //Simplifica el numerador
+	denominator /= gcd; //Simplifica el denominador
+	
+	//Determinar qual número para dar
+	if(returnDenominator == false){
+		return numerator;
+	}else if(returnDenominator == true){
+		return denominator;
+	}
+}
+
+function printTime(numerator, denominator, id, parenthesis, inputMonth, inputDay, inputYear, inputAMorPM, includeAMorPM){ //Toma entradas para dar La hora
+	if(includeAMorPM == false){ //Horario de 24 horas
+		if(numerator == 1 && denominator == 1){ //π radianes
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "π radianes.";
+		}else if(numerator == 1){ //Si coeficiente del numerador es 1
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "π/" + denominator + " radianes.";
+		}else if(numerator == 0){ //0 radianes
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "0 radianes.";
+		}else{ //Si no es cualquiera de los otros casos
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + numerator + "π/" + denominator + " radianes.";
+		}
+	}else if(includeAMorPM == true){ //Horario de 12 horas
+		if(numerator == 1 && denominator == 1){ //π radianes
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "π radianes " + inputAMorPM + ".";
+		}else if(numerator == 1){ //Si coeficiente del numerador es 1
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "π/" + denominator + " radianes " + inputAMorPM + ".";
+		}else if(numerator == 0){ //0 radianes
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + "0 radianes " + inputAMorPM + ".";
+		}else{ //Si no es cualquiera de los otros casos
+			document.getElementById(id).innerHTML = "Hoy es " + inputDay + " de " + inputMonth + " de " + inputYear + ". La hora " + parenthesis + " es: " + numerator + "π/" + denominator + " radianes "  + inputAMorPM + ".";
+		}
+	}
+}
+
+function timeSoFar(id, month, day, year, inputTime, inputMeasurement, totalTime){
+	var potentiallyPluralMeasurement;
+	if(inputMeasurement != 1){
+		potentiallyPluralMeasurement = inputMeasurement + "s";
+	}
+	document.getElementById(id).innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". " + inputTime + " " + potentiallyPluralMeasurement + " ha pasado de " + totalTime + " " + inputMeasurement + "s.";
+}
+
+function timeClock(){
+	console.log(window.innerWidth);
+
+	//Declaraciones de variables
+	var time = new Date();
+	var day = time.getDate();
+	var year = time.getFullYear();
+	var monthNumber = time.getMonth();
+	var hours = time.getHours();
+	var minutes = time.getMinutes();
+	var seconds = time.getSeconds();
+	var milliseconds = time.getMilliseconds();
+	var parityNumerator;
+	var remainderNumerator;
+	var minuteParityNumerator;
+	var minuteRemainderNumerator;
+	var hourParityNumerator;
+	var hourRemainderNumerator;
+	var AMorPM;
+	var angle;
+
+	//Vector para obtener el nombre del mes
+	var monthArray = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+	var month = monthArray[monthNumber];
+	
+	//Segundos en los minutos y las horas que ha pasado
+	var hourSeconds = hours*3600;
+	var minuteSeconds = minutes*60;
+	
+	//Minutos en las horas que ha pasado
+	var hourMinutes = hours*60;
+	
+	//Añade al numerador de segundos de 24 horas cuando pasen milisegundos
+	if(milliseconds < 500){
+	parityNumerator = 0;
+	}else{
+	parityNumerator = 1;
+	}
+	
+	//Añade al numerador de segundos de 12 horas cuando pasen milisegundos
+	if(milliseconds < 250){
+		remainderNumerator = 0;
+	}else if(milliseconds < 500){
+		remainderNumerator = 1;
+	}else if(milliseconds < 750){
+		remainderNumerator = 2;
+	}else{
+		remainderNumerator = 3;
+	}
+	
+	//Añade al numerador de minutos de 24 horas cuando pasen segundos
+	if(seconds < 30){
+		minuteParityNumerator = 0;
+	}else{
+		minuteParityNumerator = 1;
+	}
+	
+	//Añade al numerador de minutos de 12 horas cuando pasen segundos
+	if(seconds < 15){
+		minuteRemainderNumerator = 0;
+	}else if(seconds < 30){
+		minuteRemainderNumerator = 1;
+	}else if(seconds < 45){
+		minuteRemainderNumerator = 2;
+	}else{
+		minuteRemainderNumerator = 3;
+	}
+	
+	//Añade al numerador de horas de 24 horas cuando pasen minutos
+	if(minutes < 30){
+		hourParityNumerator = 0;
+	}else{
+		hourParityNumerator = 1;
+	}
+	
+	//Añade al numerador de horas de 12 horas cuando pasen minutos
+	if(minutes < 15){
+		hourRemainderNumerator = 0;
+	}else if(minutes < 30){
+		hourRemainderNumerator = 1;
+	}else if(minutes < 45){
+		hourRemainderNumerator = 2;
+	}else{
+		hourRemainderNumerator = 3;
+	}
+	
+	var daySeconds = hourSeconds + minuteSeconds + seconds; //Obtenga los segundos que ha pasado en el día
+	var daySeconds12hRadianSeconds = daySeconds % 43200; //Adapte daySeconds para el horario de 12 horas
+	
+	var totalSeconds = 60*60*24;
+	var halfTotalSeconds = totalSeconds/2;
+	var quarterTotalSeconds = totalSeconds/4;
+	
+	var doubleDaySeconds = (daySeconds * 2) + parityNumerator; //Usa para el numerador de 24 horas división de segundos
+	var quadrupleDaySeconds = (daySeconds * 4) + remainderNumerator; //Usa para el numerador de 24 horas división de segundos
+	var doubleDaySeconds12h = quadrupleDaySeconds % 172800; //Adapte doubleDaySeconds (via quadrupleDaySeconds) para el horario de 12 horas
+	
+	var dayMinutes = hourMinutes + minutes; //Obtenga los minutos que ha pasado en el día
+	var dayMinutes12hRadianMinutes = dayMinutes % 720; //Adapte dayMinutes para el horario de 12 horas
+	
+	var totalMinutes = 60*24;
+	var halfTotalMinutes = totalMinutes/2;
+	var quarterTotalMinutes = totalMinutes/4;
+
+	var doubleDayMinutes = (dayMinutes * 2) + minuteParityNumerator; //Usa para el numerador de 24 horas división de minutos
+	var quadrupleDayMinutes = (dayMinutes * 4) + minuteRemainderNumerator; //Usa para el numerador de 12 horas división de minutos
+	var doubleDayMinutes12h = quadrupleDayMinutes % 2880; //Adapte doubleDayMinutes (via quadrupleDayMinutes) para el horario de 12 horas
+	
+	var hours12hRadianHours = hours % 12; //Adapte horas para el horario de 12 horas de precisión de hora de radián
+	
+	var doubleHours = (hours * 2) + hourParityNumerator; //Usa para el numerador de 24 horas división de horas
+	var quadrupleHours = (hours * 4) + hourRemainderNumerator; //Usa para el numerador de 12 horas división de horas
+	var doubleHours12h = quadrupleHours % 48; //Adapte doubleHours (via quadrupleHours) para el horario de 12 horas
+	
+	//Check if it is AM or PM
+	if(daySeconds < 43200){
+		AMorPM = "AM";
+	}else{
+		AMorPM = "PM";
+	}
+	
+	//Simplifica los numeradores y denominadores
+	//Segundos
+	var simplifiedNumerator = simplify(doubleDaySeconds, totalSeconds, false);
+	var simplifiedDenominator = simplify(doubleDaySeconds, totalSeconds, true);
+	
+	var simplifiedNumerator12h = simplify(doubleDaySeconds12h, totalSeconds, false);
+	var simplifiedDenominator12h = simplify(doubleDaySeconds12h, totalSeconds, true);
+	
+	var simplifiedNumeratorRadianSeconds = simplify(daySeconds, halfTotalSeconds, false);
+	var simplifiedDenominatorRadianSeconds = simplify(daySeconds, halfTotalSeconds, true);
+	
+	var simplifiedNumerator12hRadianSeconds = simplify(daySeconds12hRadianSeconds, quarterTotalSeconds, false);
+	var simplifiedDenominator12hRadianSeconds = simplify(daySeconds12hRadianSeconds, quarterTotalSeconds, true);
+	
+	//Minutos
+	var simplifiedNumeratorMinutes = simplify(doubleDayMinutes, totalMinutes, false);
+	var simplifiedDenominatorMinutes = simplify(doubleDayMinutes, totalMinutes, true);
+	
+	var simplifiedNumerator12hMinutes = simplify(doubleDayMinutes12h, totalMinutes, false);
+	var simplifiedDenominator12hMinutes = simplify(doubleDayMinutes12h, totalMinutes, true);
+	
+	var simplifiedNumeratorRadianMinutes = simplify(dayMinutes, halfTotalMinutes, false);
+	var simplifiedDenominatorRadianMinutes = simplify(dayMinutes, halfTotalMinutes, true);
+	
+	var simplifiedNumerator12hRadianMinutes = simplify(dayMinutes12hRadianMinutes, quarterTotalMinutes, false);
+	var simplifiedDenominator12hRadianMinutes = simplify(dayMinutes12hRadianMinutes, quarterTotalMinutes, true);
+	
+	//Horas
+	var simplifiedNumeratorHours = simplify(doubleHours, 24, false);
+	var simplifiedDenominatorHours = simplify(doubleHours, 24, true);
+	
+	var simplifiedNumerator12hHours = simplify(doubleHours12h, 24, false);
+	var simplifiedDenominator12hHours = simplify(doubleHours12h, 24, true);
+	
+	var simplifiedNumeratorRadianHours = simplify(hours, 12, false);
+	var simplifiedDenominatorRadianHours = simplify(hours, 12, true);
+	
+	var simplifiedNumerator12hRadianHours = simplify(hours12hRadianHours, 6, false);
+	var simplifiedDenominator12hRadianHours = simplify(hours12hRadianHours, 6, true);
+	
+
+	
+	//Imprime la hora
+	//Segundos
+	printTime(simplifiedNumerator, simplifiedDenominator, "time", "(en horario de 24 horas; división de segundo)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumeratorRadianSeconds, simplifiedDenominatorRadianSeconds, "timeRadianSeconds", "(en horario de 24 horas; segundo de radiáns)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumerator12h, simplifiedDenominator12h, "time12h", "(en horario de 12 horas; división de segundo)", month, day, year, AMorPM, true);
+	printTime(simplifiedNumerator12hRadianSeconds, simplifiedDenominator12hRadianSeconds, "time12hRadianSeconds", "(en horario de 12 horas; segundo de radiáns)", month, day, year, AMorPM, true);
+	
+	document.getElementById("timeUnsimplified").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 86400; horario de 24 horas; división de segundo) es: " + doubleDaySeconds + "π/" + totalSeconds + " radianes.";
+	document.getElementById("timeUnsimplified12h").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 86400; horario de 12 horas; división de segundo) es: " + doubleDaySeconds12h + "π/" + totalSeconds + " radianes " + AMorPM + ".";
+	document.getElementById("timeUnsimplifiedRadianSeconds").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 43200; horario de 24 horas; segundo de radián) es: " + daySeconds + "π/" + halfTotalSeconds + " radianes.";
+	document.getElementById("timeUnsimplified12hRadianSeconds").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 21600; horario de 12 horas; división de segundo) es: " + daySeconds12hRadianSeconds + "π/" + quarterTotalSeconds + " radianes " + AMorPM + ".";
+	timeSoFar("secondsSoFar", month, day, year, daySeconds, "segundo", totalSeconds);
+	
+	//Minutos
+	printTime(simplifiedNumeratorMinutes, simplifiedDenominatorMinutes, "timeMinutes", "(en horario de 24 horas; división de minuto)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumeratorRadianMinutes, simplifiedDenominatorRadianMinutes, "timeRadianMinutes", "(en horario de 24 horas; minuto de radiáns)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumerator12hMinutes, simplifiedDenominator12hMinutes, "time12hMinutes", "(en horario de 12 horas; división de minuto)", month, day, year, AMorPM, true);
+	printTime(simplifiedNumerator12hRadianMinutes, simplifiedDenominator12hRadianMinutes, "time12hRadianMinutes", "(en horario de 12 horas; minuto de radiáns)", month, day, year, AMorPM, true);
+	
+	document.getElementById("timeUnsimplifiedMinutes").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 1440; horario de 24 horas; división de minuto) es: " + doubleDayMinutes + "π/" + totalMinutes + " radianes.";
+	document.getElementById("timeUnsimplified12hMinutes").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 1440; horario de 12 horas; división de minuto) es: " + doubleDayMinutes12h + "π/" + totalMinutes + " radianes " + AMorPM + ".";
+	document.getElementById("timeUnsimplifiedRadianMinutes").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 720; horario de 24 horas; minuto de radián) es: " + dayMinutes + "π/" + halfTotalMinutes + " radianes.";
+	document.getElementById("timeUnsimplified12hRadianMinutes").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 360; horario de 12 horas; minuto de radián) es: " + dayMinutes12hRadianMinutes + "π/" + quarterTotalMinutes + " radianes " + AMorPM + ".";
+	timeSoFar("minutesSoFar", month, day, year, dayMinutes, "minuto", totalMinutes);
+
+	//Horas
+	printTime(simplifiedNumeratorHours, simplifiedDenominatorHours, "timeHours", "(en horario de 24 horas; división de hora)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumeratorRadianHours, simplifiedDenominatorRadianHours, "timeRadianHours", "(en horario de 24 horas; hora de radián)", month, day, year, AMorPM, false);
+	printTime(simplifiedNumerator12hHours, simplifiedDenominator12hHours, "time12hHours", "(en horario de 12 horas; división de hora)", month, day, year, AMorPM, true);
+	printTime(simplifiedNumerator12hRadianHours, simplifiedDenominator12hRadianHours, "time12hRadianHours", "(en horario de 12 horas; hora de radián)", month, day, year, AMorPM, true);
+	
+	document.getElementById("timeUnsimplifiedHours").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 24; horario de 24 horas; división de hora) es: " + doubleHours + "π/" + 24 + " radianes.";
+	document.getElementById("timeUnsimplified12hHours").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 24; horario de 12 horas; división de hora) es: " + doubleHours12h + "π/" + 24 + " radianes " + AMorPM + ".";
+	document.getElementById("timeUnsimplifiedRadianHours").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 12; horario de 24 horas; hora de radián) es: " + hours + "π/" + 12 + " radianes.";
+	document.getElementById("timeUnsimplified12hRadianHours").innerHTML = "Hoy es " + day + " de " + month + " de " + year + ". La hora (con un denominador de 6; horario de 12 horas; hora de radián) es: " + hours12hRadianHours + "π/" + 6 + " radianes " + AMorPM + ".";
+	timeSoFar("hoursSoFar", month, day, year, hours, "hora", 24);
+
+	clockHands(doubleDaySeconds, totalSeconds);
+	clockHands12h(doubleDaySeconds12h, totalSeconds);
+
+}
+
+function clockHands(inputNumerator, inputDenominator){ //Función para dibujar la manecilla del reloj
+	//Declaración del variable
+	var angle1;
+
+	if(inputNumerator == 0){ //La hora es 0 radianes.
+		angle1 = 0;
+	}else{ //La hora no es 0 radianes.
+		angle1 = (inputNumerator / inputDenominator) * Math.PI;
+	}
+	
+	//Remplaza la manecilla anterior
+	context.beginPath();
+	context.arc(250, 250, 100, 0, 2 * Math.PI);
+	context.fillStyle = "white";
+	context.fill();
+
+	//Dibuja otra vez el suporte
+	context.beginPath();
+	context.arc(250, 250, 10, 0, 2 * Math.PI);
+	context.fillStyle = "black";
+	context.fill();
+
+	//Dibuja la manecilla en el elemento Canvas
+	var handXCoordinate = (Math.sin(angle1) * 90) + 250;
+	var handYCoordinate = 250 - (Math.cos(angle1) * 90);
+	
+	context.beginPath();
+	context.strokeStyle = "black";
+	context.moveTo(250, 250);
+	context.lineTo(handXCoordinate, handYCoordinate);
+	context.stroke();
+
+}
+
+function clockHands12h(inputNumerator12h, inputDenominator12h){ //Función para dibujar la manecilla del reloj
+	//Declaración del variable
+	var angleOne12h;
+
+	if(inputNumerator12h == 0){ //Si la hora es radianes.
+		angleOne12h = 0;
+	}else{ //Si la hora no es 0 radianes.
+		angleOne12h = (inputNumerator12h / inputDenominator12h) * Math.PI;
+	}
+	
+	//Remplaza la manecilla anterior
+
+	context12h.beginPath();
+	context12h.arc(250, 250, 100, 0, 2 * Math.PI);
+	context12h.fillStyle = "white";
+	context12h.fill();
+
+	//Dibuja otra vez el suporte
+	context12h.beginPath();
+	context12h.arc(250, 250, 10, 0, 2 * Math.PI);
+	context12h.fillStyle = "black";
+	context12h.fill();
+
+	//Dibuja la manecilla en el elemento Canvas
+	var handXCoordinate12h = (Math.sin(angleOne12h) * 90) + 250;
+	var handYCoordinate12h = 250 - (Math.cos(angleOne12h) * 90);
+	
+	context12h.beginPath();
+	context12h.strokeStyle = "black";
+	context12h.moveTo(250, 250);
+	context12h.lineTo(handXCoordinate12h, handYCoordinate12h);
+	context12h.stroke();
+
+}
+
+window.onload = function(){ //Repite la función cada 250 millisegundos.
+	setInterval(timeClock, 250);
+}
+</script>
+</body>
+</html>
